@@ -12,7 +12,6 @@ Base de datos relacional
 
 # Integrantes
 
-
-Alejandro	Hernández Pérez -> a.hernandezp.2016@alumnos.urjc.es
-Mario	Márquez Balduque -> m.marquezb.2016@alumnos.urc.es
-Javier Bravo Bolívar ->	j.bravo.2016@alumnos.urjc.es
++ Alejandro	Hernández Pérez -> a.hernandezp.2016@alumnos.urjc.es , Darkc0m
++ Mario	Márquez Balduque -> m.marquezb.2016@alumnos.urc.es , Rinkashiki
++ Javier Bravo Bolívar ->	j.bravo.2016@alumnos.urjc.es , javierb1984
