@@ -12,9 +12,10 @@ En ella participan tanto los desarrolladores de los videojuegos originales, como
 + Usuario: Posee nombre de usuario, correo, contraseña, fecha de registro y número de comentarios. Puede ser a su vez un desarrollador y/o modder. Entidad básica que interactúa con la página, puede escribir comentarios y descargar juegos y mods.
   + Desarrollador: Es una extensión del usuario, que tiene la opción de publicar juegos. Posee, por tanto, los juegos que tiene publicados. 
   + Modder: Igual que la entidad anterior, pero en lugar de juegos posee mods publicados.
-+ Videojuego: Posee nombre, fecha de publicación, género, descripción, autor/es, desarrollador y lista de comentarios.
-+ Mod: Igual que la entidad anterior, pero posee el nombre del videojuego al que pertenece el mod.
-+ Comentario : Posee autor, cuerpo, fecha de publicación, nombre de videojuego/mod al que pertenece
++ Software: Posee nombre, fecha de publicación, género, descripción, autor/es, desarrollador y lista de comentarios.
+  + Videojuego: extiende sofware.
+  + Mod: extiende software, posee el nombre del videojuego al que pertenece.
++ Comentario : Posee autor, cuerpo, fecha de publicación y nombre de videojuego/mod al que pertenece.
 
 ## Base de datos relacional
 
