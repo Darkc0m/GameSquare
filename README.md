@@ -8,9 +8,10 @@ En ella participan tanto los desarrolladores de los videojuegos originales, como
 
 Base de datos relacional
 
-![image](bases_de_datos.png)
+![image](bases_de_datos.jpg)
 
 # Integrantes
+
 
 Alejandro	Hernández Pérez -> a.hernandezp.2016@alumnos.urjc.es
 Mario	Márquez Balduque -> m.marquezb.2016@alumnos.urc.es
