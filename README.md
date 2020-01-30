@@ -4,7 +4,7 @@ Web dedicada a la facilitación del desarrollo de videojuegos y la creación de 
 En ella participan tanto los desarrolladores de los videojuegos originales, como los creadores de contenido adicional/mods, conocidos como modders.
 
 + Funcionalidad pública: Buscar videojuegos y mods para descargar
-+ Funcionalidad privada: Publicar un videojuego, subir un mod, comentar sobre un mod, implementar el contenido de un mod sobre el juego base.
++ Funcionalidad privada: Publicar un videojuego, subir un mod, comentar sobre un mod/videojuego
 + Servicio interno: Notificar al desarrollador con un correo cuando se publique un mod de su juego, notificar a los usuarios a través de un tablón de noticias cuando se publique un juego nuevo.
 
 ## Entidades principales
