@@ -4,19 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 
+@MappedSuperclass
 public class Software {
 	
 	//Attributes
 	@Id
-	private String name;
+	protected String name;
 	
-	private String pubDate;
-	private String genre;
-	private String[] authors;
-	private String description;
-	private String developer;
-	private List<Comment> comments;
+	protected String pubDate;
+	protected String genre;
+	protected String[] authors;
+	protected String description;
+	protected String developer;
+	@OneToMany
+	protected List<Comment> comments;
 	
 	//Constructs
 	public Software(String name, String genre, String description, String developer) {
@@ -25,7 +29,7 @@ public class Software {
 		this.description = description;
 		this.developer = developer;
 		this.pubDate = "Today";
-		comments = new ArrayList<>();		
+		comments = new ArrayList<Comment>();		
 	}
 	
 	public Software() {

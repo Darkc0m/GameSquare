@@ -1,5 +1,8 @@
 package es.GameSquare.GameSquareApp;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Mod extends Software{
 	
 	//Attributes
