@@ -2,18 +2,25 @@ package es.GameSquare.GameSquareApp;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+@Entity
 public class GameDeveloper extends User{
 	
 	//Attributes
 	@OneToMany
-	List<Videogame> games;
+	private List<Videogame> games;
 	
 	//Constructors
-	public GameDeveloper() {
-		super();
+	public GameDeveloper(String userName, String password) {
+		super(userName, password);
 		games = new ArrayList<>();	
+	}
+	
+	public GameDeveloper() {
+		
 	}
 
 	//Getters & Setters
@@ -23,6 +30,10 @@ public class GameDeveloper extends User{
 
 	public void setGames(List<Videogame> games) {
 		this.games = games;
+	}
+	
+	public void addGame(Videogame game) {
+		games.add(game);
 	}
 
 }

@@ -8,21 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.OneToMany;
 
 @Entity
+@Inheritance
 public class User {
 	
 	//Attributes
 	@Id
-	private String userName;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	protected long id;
 	
-	private String password;
-	private String regDate;
+	protected String userName;
+	protected String password;
+	protected String regDate;
 	
 	@OneToMany
-	private List<Comment> comments;
+	protected List<Comment> comments;
 	
 	/*
 	//To take the date

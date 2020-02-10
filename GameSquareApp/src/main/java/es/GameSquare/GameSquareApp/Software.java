@@ -3,6 +3,8 @@ package es.GameSquare.GameSquareApp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
@@ -12,8 +14,10 @@ public class Software {
 	
 	//Attributes
 	@Id
-	protected String name;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	protected long id;
 	
+	protected String name;
 	protected String pubDate;
 	protected String genre;
 	protected String[] authors;

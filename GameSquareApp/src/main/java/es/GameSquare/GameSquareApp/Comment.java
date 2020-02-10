@@ -17,6 +17,7 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
 	private String author;
 	private String body;
 	private String pubDate;

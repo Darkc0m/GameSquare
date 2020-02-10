@@ -9,8 +9,8 @@ public class Mod extends Software{
 	private String game;
 	
 	//Constructors
-	public Mod(String game) {
-		super();
+	public Mod(String name, String genre, String description, String developer,String game) {
+		super(name, genre, description, developer);
 		this.game = game;
 	}
 	
