@@ -2,12 +2,25 @@
 <html>
 <body>
 
+<head>
+	<title>Game Square</title>
+	<style>
+		fieldset {
+         display: inline-block;
+         margin: auto;
+    	}
+	</style>
+</head>
+
 <form action="/template">
-  <label for="user">User: </label>
-  <input type="text" name="username"><br>
-  <label for="user">Password: </label>
-  <input type="text" name="password"><br>
-  <input type="submit" value="Init Session">
+	<fieldset>
+	<legend>Login: </legend>
+	  Username: <br>
+	  <input type="text" name="username"><br>
+	  Password: <br>
+	  <input type="text" name="password"><br>
+	  <input type="submit" value="Login"><br>
+	</fieldset>
 </form>
 
 </body>
