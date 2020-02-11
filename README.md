@@ -19,7 +19,7 @@ En ella participan tanto los desarrolladores de los videojuegos originales, como
 
 ## Base de datos relacional
 
-![image](bases_de_datos.jpg)
+![image](Esquema_relacional_DAD.jpg)
 
 ## Integrantes
 
