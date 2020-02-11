@@ -1,5 +1,8 @@
 package es.GameSquare.GameSquareApp;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 //import java.text.DateFormat;
 //import java.text.SimpleDateFormat;
 //import java.util.Calendar;
@@ -34,7 +37,7 @@ public class Comment {
 		this.author = author;
 		this.body = body;
 		this.VidOrModName = VidOrModName;
-		this.pubDate = "Today";
+		this.pubDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());;
 	}
 	
 	public Comment() {

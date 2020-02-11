@@ -1,6 +1,8 @@
 package es.GameSquare.GameSquareApp;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
@@ -32,7 +34,7 @@ public class Software {
 		this.genre = genre;
 		this.description = description;
 		this.developer = developer;
-		this.pubDate = "Today";
+		this.pubDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());;
 		comments = new ArrayList<Comment>();		
 	}
 	

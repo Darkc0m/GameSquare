@@ -1,8 +1,12 @@
 package es.GameSquare.GameSquareApp;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 //import java.text.DateFormat;
 //import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 //import java.util.Calendar;
 //import java.util.Date;
 import java.util.List;
@@ -13,9 +17,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
-@Inheritance
 public class User {
 	
 	//Attributes
@@ -29,18 +33,23 @@ public class User {
 	
 	@OneToMany
 	protected List<Comment> comments;
+	@OneToOne
+	private GameDeveloper developer;
+	@OneToOne
+	private ModDeveloper modder;
 	
-	/*
+	
 	//To take the date
-	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	Date date = Calendar.getInstance().getTime();
-	*/
+	//DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	//Date date = Calendar.getInstance().getTime();
+	
+	
 	
 	//Constructors
 	public User(String userName, String password) {
 		this.userName = userName;
 		this.password = password;
-		this.regDate = "Today";
+		this.regDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 		this.comments = new ArrayList<>();	
 	}
 	
@@ -72,6 +81,21 @@ public class User {
 	}
 	public void addToCommentList(Comment comment) {
 		this.comments.add(comment);
+	}
+	public GameDeveloper getDeveloper() {
+		return developer;
+	}
+
+	public void setDeveloper(GameDeveloper developer) {
+		this.developer = developer;
+	}
+
+	public ModDeveloper getModder() {
+		return modder;
+	}
+
+	public void setModder(ModDeveloper modder) {
+		this.modder = modder;
 	}
 	
 
