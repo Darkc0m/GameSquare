@@ -70,7 +70,7 @@
 		<tbody>
 			<tr>
 			{{#games}}
-				<td><a href="/game/{{.}}">{{.}}</a></td>
+				<td><a href="/games/{{id}}">{{name}}</a></td>
 			{{/games}}
 			</tr>
 		</tbody>
@@ -84,7 +84,7 @@
 		<tbody>
 			<tr>
 			{{#mods}}
-				<td><a href="/mod/{{.}}">{{.}}</a></td>
+				<td><a href="/mods/{{id}}">{{name}} for {{game}}</a></td>
 			{{/mods}}
 			</tr>
 		</tbody>

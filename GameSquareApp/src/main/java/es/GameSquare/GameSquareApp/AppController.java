@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,28 +50,40 @@ public class AppController {
 		}
 		
 		List<Videogame> games = VideogamesRpo.findFirst10ByOrderByPubDateDesc();
-		List<String> game_names = new ArrayList<String>();
-		for(int i = 0; i < games.size(); i++) {
-			game_names.add(games.get(i).getName());
-		}
+		
 		
 		List<Mod> mods = ModsRpo.findAll(new Sort(new Order(Sort.Direction.ASC, "pubDate")));
-		List<String> mod_names = new ArrayList<String>();
-		for(int i = 0; i < mods.size(); i++) {
-			mod_names.add(mods.get(i).getName());
-		}
 		
 		model.addAttribute("username", username);
 		model.addAttribute("user_mapping", user_mapping);		
-		model.addAttribute("games", game_names);
-		model.addAttribute("mods", mod_names);
+		model.addAttribute("games", games);
+		model.addAttribute("mods", mods);
 		return "index";
 	}
 	
-	@GetMapping("/game/{param}")
-	public String game(Model model) {
-		return "game";
+	@GetMapping("/games/{game_id}")
+	public String game(Model model, @PathVariable String game_id) {
+		
+		Videogame videogame = VideogamesRpo.getOne(Long.parseLong(game_id));
+		//Page<Comment> comments = 
+		model.addAttribute("vg", videogame);
+		//model.addAttribute("comments", comments);
+		
+		return "games";
 	}
+	
+	@GetMapping("/mods/{mod_id}")
+	public String mod(Model model, @PathVariable String mod_id) {
+		
+		Mod mod = ModsRpo.getOne(Long.parseLong(mod_id));
+		//Page<Comment> comments = 
+		model.addAttribute("mod", mod);
+		//model.addAttribute("comments", comments);
+		
+		return "mods";
+	}
+	
+	
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {

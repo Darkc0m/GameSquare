@@ -19,6 +19,14 @@ public class Software {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected long id;
 	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	protected String name;
 	protected String pubDate;
 	protected String genre;

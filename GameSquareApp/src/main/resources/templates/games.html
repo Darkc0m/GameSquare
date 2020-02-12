@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{{vg.name}}</title>
+</head>
+<body>
+
+	<h1>{{vg.name}}</h1>
+	<h2>A game by {{vg.developer}} - Genre: {{vg.genre}}</h2>
+	<p>{{vg.description}}</p>
+	
+	<form action="/">
+		<textarea name='comentario' rows=5 cols=40>Write your comment here...</textarea>
+		<input type='submit' value='Enviar'/>
+	</form>
+	
+	{{#comments}}
+	<h4>Por {{author}} a las {{pubDate}}</h4>
+	<p>{{body}}</p>
+	{{/comments}}
+	
+
+</body>
+</html>
