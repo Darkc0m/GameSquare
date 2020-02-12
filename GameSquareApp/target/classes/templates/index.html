@@ -27,6 +27,9 @@
   	background-color: #404040;
   	color: white;
   }
+  a{
+  	color: red;
+  }
   .top_bar{
   	color: white;
   	display: inline;
@@ -67,7 +70,7 @@
 		<tbody>
 			<tr>
 			{{#games}}
-				<td>{{.}}</td>
+				<td><a href="/game/{{.}}">{{.}}</a></td>
 			{{/games}}
 			</tr>
 		</tbody>
@@ -81,7 +84,7 @@
 		<tbody>
 			<tr>
 			{{#mods}}
-				<td>{{.}}</td>
+				<td><a href="/mod/{{.}}">{{.}}</a></td>
 			{{/mods}}
 			</tr>
 		</tbody>

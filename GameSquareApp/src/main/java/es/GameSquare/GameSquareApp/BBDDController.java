@@ -28,8 +28,10 @@ public class BBDDController {
 		GameDeveloper user2 = new GameDeveloper("Juez", "Kimochi");
 		ModDeveloper user3 = new ModDeveloper("Javi", "2B9S");
 		
-		user2.addGame(new Videogame("Lolis", "SliceofLife", "Kawaii", "Juez"));
-		user3.addMod(new Mod("x2", "SliceofLife", "Kawaiix2", "Javi", "Lolis"));
+		for(int i = 0; i < 10; i++) {
+			user2.addGame(new Videogame("Juego"+"_"+i, "SliceofLife", "Kawaii", "Juez"));
+			user3.addMod(new Mod("x2"+"_"+i, "SliceofLife", "Kawaiix2", "Javi", "Lolis"));
+		}
 		
 		Comment c1 = new Comment("Alejuandro-Chan", "Pero vaya puto imbécil", "Nekopara");
 		
@@ -45,4 +47,5 @@ public class BBDDController {
 		
 		//List<User> users = UsersRpo.findAll();
 	}
+
 }

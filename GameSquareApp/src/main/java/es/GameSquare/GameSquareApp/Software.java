@@ -25,6 +25,7 @@ public class Software {
 	protected String[] authors;
 	protected String description;
 	protected String developer;
+
 	@OneToMany
 	protected List<Comment> comments;
 	
@@ -34,10 +35,10 @@ public class Software {
 		this.genre = genre;
 		this.description = description;
 		this.developer = developer;
-		this.pubDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());;
+		this.pubDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 		comments = new ArrayList<Comment>();		
 	}
-	
+
 	public Software() {
 		
 	}
