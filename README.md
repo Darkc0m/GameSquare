@@ -21,6 +21,11 @@ En ella participan tanto los desarrolladores de los videojuegos originales, como
 
 ![image](Esquema_relacional_DAD.jpg)
 
+## Esquema de plantillas de la web
+
+![image](esquema_plantillas_DAD.jpg)
+
+
 ## Integrantes
 
 + Alejandro	Hernández Pérez -> a.hernandezp.2016@alumnos.urjc.es , Darkc0m
