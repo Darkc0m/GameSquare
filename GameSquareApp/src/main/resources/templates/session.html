@@ -12,14 +12,14 @@
 	</style>
 </head>
 
-<form action="/login" method="post">
+<form action={{link}} method="post">
 	<fieldset>
-	<legend>Login:</legend>
+	<legend>{{action}}</legend>
 	Username: <br>
 	  <input type="text" name="username"><br>
 	  Password: <br>
 	  <input type="text" name="password"><br>
-	  <input type="submit" value="Login"><br>
+	  <input type="submit" value={{action}}><br>
 	</fieldset>
 </form>
 

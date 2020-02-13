@@ -26,34 +26,84 @@ public class AppController {
 	@Autowired
 	private ModsRepository ModsRpo;
 	
+	@Autowired
+	private UsersRepository UsersRpo;
+	
 	@GetMapping("/login")
-	public String login() {
+	public String login(Model model) {
+		model.addAttribute("link", "/login");
+		model.addAttribute("action", "Login");
 		return "session";
 	}
 	
 	@PostMapping("/login")
-	public String sumbit(HttpSession session, @RequestParam String username, @RequestParam String password) {
-		session.setAttribute("username", username);
-		session.setAttribute("password", password);
+	public String sumbit(HttpSession session, Model model, @RequestParam String username, @RequestParam String password) {
+		User u = UsersRpo.findByUserName(username);
+		
+		String message = "Incorrect username or password.";
+		if(u == null) {
+			
+		}			
+		else if(u.getUserName().equals(username) && u.getPassword().equals(password)) {
+			message = "Succesfully logged as "+username;
+				session.setAttribute("username", username);
+				session.setAttribute("password", password);		
+		}
+
+		model.addAttribute("message", message);
 		return "template";
 	}
+	
+	@GetMapping("/register")
+	public String register(Model model) {
+		
+		model.addAttribute("action", "Register");
+		model.addAttribute("link", "/register");		
+		return "session";
+	}
+	
+	@PostMapping("/register")
+	public String register_sumbit(HttpSession session, Model model, @RequestParam String username, @RequestParam String password) {
+		User existing_user = UsersRpo.findByUserName(username);
+		
+		String message = "User succesfully registered!";
+		
+		if(existing_user == null) {
+			User u = new User(username, password);
+			UsersRpo.save(u);
+		}
+		else {
+			message = "The username already exists. Try again.";
+		}
+
+		model.addAttribute("message", message);
+		return "template";
+	}
+	
 	
 	@GetMapping("/")
 	public String index(Model model, HttpSession session) {
 		
 		String username = "Login";
 		String user_mapping = "/login";
+		String register_logout = "Register";
+		String rl_link = "/register"; 
 		
+		// Logged
 		if(session.getAttributeNames().hasMoreElements()) {
 			username = session.getAttribute("username").toString();
 			user_mapping = "/users/"+username;
+			register_logout = "Logout";
+			rl_link = "/logout";
 		}
 		
 		List<Videogame> games = VideogamesRpo.findFirst10ByOrderByPubDateDesc();
 		
 		
-		List<Mod> mods = ModsRpo.findAll(new Sort(new Order(Sort.Direction.ASC, "pubDate")));
+		List<Mod> mods = ModsRpo.findFirst10ByOrderByPubDateDesc();
 		
+		model.addAttribute("rl", register_logout);
+		model.addAttribute("rl_link", rl_link);
 		model.addAttribute("username", username);
 		model.addAttribute("user_mapping", user_mapping);		
 		model.addAttribute("games", games);
@@ -99,9 +149,10 @@ public class AppController {
 	
 	
 	@GetMapping("/logout")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session, Model model) {
+		model.addAttribute("message", "Successfully logged out!");
 		session.invalidate();
-		return "index";
+		return "template";
 	}
 }
 	
