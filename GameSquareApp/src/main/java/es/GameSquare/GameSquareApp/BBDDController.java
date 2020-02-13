@@ -28,7 +28,7 @@ public class BBDDController {
 		GameDeveloper user2 = new GameDeveloper("Juez", "Kimochi");
 		ModDeveloper user3 = new ModDeveloper("Javi", "2B9S");
 		
-		for(int i = 0; i < 9; i++) {
+		for(int i = 0; i < 19; i++) {
 			user2.addGame(new Videogame("Juego"+"_"+i, "SliceofLife", "Kawaii", "Juez"));
 			user3.addMod(new Mod("x2"+"_"+i, "SliceofLife", "Kawaiix2", "Javi", "Lolis"));
 		}

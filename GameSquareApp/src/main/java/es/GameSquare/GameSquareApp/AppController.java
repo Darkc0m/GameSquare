@@ -83,6 +83,19 @@ public class AppController {
 		return "mods";
 	}
 	
+	@GetMapping("/all_games")
+	public String games_list(Model model) {
+		List<Videogame> games = VideogamesRpo.findAll();
+		model.addAttribute("games", games);
+		return "games_list";
+	}
+	
+	@GetMapping("/all_mods")
+	public String mods_list(Model model) {
+		List<Mod> mods = ModsRpo.findAll();
+		model.addAttribute("mods", mods);
+		return "mods_list";
+	}
 	
 	
 	@GetMapping("/logout")

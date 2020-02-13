@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Games</title>
+</head>
+<body>	
+	<form action="/">
+		<table>
+		<tbody>
+			<tr>
+			{{#games}}
+				<td><a href="/games/{{id}}">{{name}}</a></td>
+			{{/games}}
+			</tr>
+		</tbody>
+	</table><br>
+	</form>
+</body>
+</html>
