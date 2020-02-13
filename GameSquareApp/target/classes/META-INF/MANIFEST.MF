@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: GameSquareApp
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: msi
+Built-By: User
 Implementation-Vendor-Id: es.GameSquare
-Build-Jdk: 1.8.0_241
+Build-Jdk: 1.8.0_111
 Implementation-URL: http://projects.spring.io/spring-boot/GameSquareAp
  p/
 Created-By: Maven Integration for Eclipse
