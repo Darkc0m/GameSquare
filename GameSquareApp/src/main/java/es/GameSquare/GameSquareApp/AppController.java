@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,9 @@ public class AppController {
 	
 	@Autowired
 	private ModsRepository ModsRpo;
+	
+	@Autowired
+	private CommentsRepository CommentsRpo;
 	
 	@GetMapping("/login")
 	public String login() {
@@ -62,23 +67,25 @@ public class AppController {
 	}
 	
 	@GetMapping("/games/{game_id}")
-	public String game(Model model, @PathVariable String game_id) {
+	public String game(Model model, @PathVariable String game_id, @RequestParam int page) {
 		
 		Videogame videogame = VideogamesRpo.getOne(Long.parseLong(game_id));
-		//Page<Comment> comments = 
+		Page<Comment> comments = CommentsRpo.findBySoftwareNameOrderByPubDate(videogame.name, new PageRequest(page,20));
 		model.addAttribute("vg", videogame);
-		//model.addAttribute("comments", comments);
+		model.addAttribute("comments", comments);
+		model.addAttribute("nextPage", game_id + "?page=" + (page + 1));
+		model.addAttribute("previousPage", game_id + "?page=" + (page - 1));
 		
 		return "games";
 	}
 	
 	@GetMapping("/mods/{mod_id}")
-	public String mod(Model model, @PathVariable String mod_id) {
+	public String mod(Model model, @PathVariable String mod_id, @RequestParam int page) {
 		
 		Mod mod = ModsRpo.getOne(Long.parseLong(mod_id));
-		//Page<Comment> comments = 
+		Page<Comment> comments = CommentsRpo.findBySoftwareNameOrderByPubDate(mod.name, new PageRequest(page,20));
 		model.addAttribute("mod", mod);
-		//model.addAttribute("comments", comments);
+		model.addAttribute("comments", comments);
 		
 		return "mods";
 	}
