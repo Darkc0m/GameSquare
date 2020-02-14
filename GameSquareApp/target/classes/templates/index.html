@@ -7,7 +7,7 @@
   <style>
   h1{
   	text-align: left;
-  	margin-left: 20px;
+  	margin-left: 40px;
   	font-size: 25px;
   	display: inline;
   }
@@ -30,15 +30,48 @@
   a{
   	color: red;
   }
+  a:hover{
+  	color: white;
+  }
   .top_bar{
   	color: white;
   	display: inline;
   	font-size: 25px;
   	position: relative;
-  	left: 75%;
-  	top: 15px;
-  	margin-left: 30px;
+  	margin-left: 2%;
   }
+  .space_top{
+  	left: 40px;
+  	margin-top: 15px;
+  }
+  .right{
+  	left: 100px;
+  	position: inline;
+  }
+  .searchbox{
+  	background-color: white;
+  	top: -5px;
+  	width: 200px;
+  	height: 30px;
+  	white-space: nowrap;
+  	display: inline-block;
+  	position: relative;
+  	margin-left: 60%;
+  }
+  .searchbox input{
+  	border: none;
+  	font-size: 15px;
+  	width: 60%;
+  	height: 100%;
+  	padding: 0;
+  	margin: 0 auto;
+  	vertical-align:middle;
+  }
+  .searchbox button{
+  	width: 40%;
+  	height: 100%;
+  	vertical-align:middle;
+  }  
   .button{
 	  text-decoration: none;
 	  background-color: white;
@@ -47,6 +80,9 @@
 	  border: 2px solid #888;
 	  border-radius: 5px;
 	  margin-left: 10px;		
+  }
+  a.button:hover{
+  	  background-color: #888;
   }
   table{
   	border-spacing: 20px 10px;
@@ -57,9 +93,15 @@
 
 <body>
 	<nav>
-		<h2 class="top_bar" style="left:20px">Game Square</h2>
-		<a class="top_bar" href = {{user_mapping}}>{{username}}</a>
-		<a class="top_bar" href = "{{rl_link}}">{{rl}}</a>
+		<div class="space_top">
+			<h2 class="top_bar">Game Square</h2>
+			<form class="searchbox" action="/search/">
+				<input type="text" placeholder="Search..." name="name">
+				<button type="submit">Submit</button>
+			</form>
+			<a class="top_bar" href = {{user_mapping}}>{{username}}</a>
+			<a class="top_bar" href = "{{rl_link}}">{{rl}}</a>	
+		</div>
 	</nav><br>
 	
 	<h1>Latest Games</h1>

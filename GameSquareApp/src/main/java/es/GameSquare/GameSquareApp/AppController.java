@@ -147,6 +147,14 @@ public class AppController {
 		return "mods_list";
 	}
 	
+	@GetMapping("/search/")
+	public String search(Model model, @RequestParam String name) {
+		List<Videogame> games_by_name = VideogamesRpo.findByNameContainingIgnoreCaseOrderByPubDateDesc(name);
+		
+		model.addAttribute("games", games_by_name);
+		return "games_list";
+	}
+	
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session, Model model) {
