@@ -3,15 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <title>{{vg.name}}</title>
+	<style type="text/css">
+		#title{ text-align: center;
+		}
+		#leftside { float:left;
+					width:75%;
+					height:280px;
+		}
+		#rightside{ float:left;
+					width:25%;
+					height:280px;
+		}
+	</style>
+	
 </head>
 <body>
-
-	<h1>{{vg.name}}</h1>
+	<h1 id = "title">{{vg.name}}</h1>
+	<div id = "leftside">
 	<h2>A game by {{vg.developer}} - Genre: {{vg.genre}}</h2>
 	<p>{{vg.description}}</p>
 	
-	<form action="/">
-		<textarea name='comentario' rows=5 cols=40>Write your comment here...</textarea>
+	<form action="sent_comment/{{vg.id}}" method="post">
+		<textarea name='body' rows=5 cols=40>Write your comment here...</textarea>
 		<input type='submit' value='Enviar'/>
 	</form>
 	
@@ -21,6 +34,18 @@
 	{{/vg.comments}}
 	
 	<p><a href={{previousPage}}>«</a><a href={{nextPage}}>»</a><p>
+	</div>
+	<div id = "rightside">
+		<table>
+			<table>
+                <ul>
+                {{#vg.mods}}
+                  <li><a href="/mods/{{id}}?page=0">{{name}}</a> - {{genre}}</li>
+                {{/vg.mods}}
+                </ul>
+              </table> 
+		</table>
+	</div>
 
 </body>
 </html>

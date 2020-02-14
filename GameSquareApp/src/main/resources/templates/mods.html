@@ -7,18 +7,20 @@
 <body>
 
 	<h1>{{mod.name}}</h1>
-	<h2>A mod by {{mod.developer}} for the game {{mod.game}}</h2>
+	<h2>A mod by {{mod.developer}} for the game {{mod.videogame.name}}</h2>
 	<p>{{mod.description}}</p>
 	
-	<form action="/">
-		<textarea name='comentario' rows=5 cols=40>Write your comment here...</textarea>
+	<form action="sent_comment/{{mod.id}}" method="post">
+		<textarea name='body' rows=5 cols=40>Write your comment here...</textarea>
 		<input type='submit' value='Enviar'/>
 	</form>
 	
-	{{#comments}}
+	{{#mod.comments}}
 	<h4>Por {{author}} a las {{pubDate}}</h4>
 	<p>{{body}}</p>
-	{{/comments}}
+	{{/mod.comments}}
+	
+	<p><a href={{previousPage}}>«</a><a href={{nextPage}}>»</a><p>
 	
 
 </body>
