@@ -86,28 +86,12 @@ public class AppController {
 	@GetMapping("/")
 	public String index(Model model, HttpSession session) {
 		
-		String username = "Login";
-		String user_mapping = "/login";
-		String register_logout = "Register";
-		String rl_link = "/register"; 
+		session_params(model, session);
 		
-		// Logged
-		if(session.getAttributeNames().hasMoreElements()) {
-			username = session.getAttribute("username").toString();
-			user_mapping = "/users/"+username;
-			register_logout = "Logout";
-			rl_link = "/logout";
-		}
+		List<Videogame> games = VideogamesRpo.findFirst10ByOrderByPubDateDesc();	
 		
-		List<Videogame> games = VideogamesRpo.findFirst10ByOrderByPubDateDesc();
-		
-		
-		List<Mod> mods = ModsRpo.findFirst10ByOrderByPubDateDesc();
-		
-		model.addAttribute("rl", register_logout);
-		model.addAttribute("rl_link", rl_link);
-		model.addAttribute("username", username);
-		model.addAttribute("user_mapping", user_mapping);		
+		List<Mod> mods = ModsRpo.findFirst10ByOrderByPubDateDesc();		
+
 		model.addAttribute("games", games);
 		model.addAttribute("mods", mods);
 		return "index";
@@ -154,9 +138,8 @@ public class AppController {
 	}
 	
 	@GetMapping("/search{name}{game_page}{mod_page}")
-	public String search(Model model, @RequestParam String name, @RequestParam int game_page, @RequestParam int mod_page) {
-
-		
+	public String search(Model model, HttpSession session, @RequestParam String name, @RequestParam int game_page, @RequestParam int mod_page) {		
+		session_params(model, session);
 		
 		Page<Videogame> games_by_name = VideogamesRpo.findByNameContainingIgnoreCaseOrderByPubDateDesc(name, new PageRequest(game_page, 10));
 		Page<Mod> mods_by_name = ModsRpo.findByNameContainingIgnoreCaseOrderByPubDateDesc(name, new PageRequest(mod_page, 10));
@@ -191,6 +174,27 @@ public class AppController {
 		model.addAttribute("message", "Successfully logged out!");
 		session.invalidate();
 		return "template";
+	}
+	
+	//Setting up session and top bar on each url
+	private void session_params(Model model, HttpSession session) {
+		String username = "Login";
+		String user_mapping = "/login";
+		String register_logout = "Register";
+		String rl_link = "/register"; 
+		
+		// Logged
+		if(session.getAttributeNames().hasMoreElements()) {
+			username = session.getAttribute("username").toString();
+			user_mapping = "/users/"+username;
+			register_logout = "Logout";
+			rl_link = "/logout";
+		}
+		
+		model.addAttribute("rl", register_logout);
+		model.addAttribute("rl_link", rl_link);
+		model.addAttribute("username", username);
+		model.addAttribute("user_mapping", user_mapping);		
 	}
 }
 	
