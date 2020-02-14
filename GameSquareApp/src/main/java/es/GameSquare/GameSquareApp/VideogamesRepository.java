@@ -14,6 +14,6 @@ public interface VideogamesRepository extends JpaRepository<Videogame, Long>{
 	
 	List<Videogame> findFirst10ByOrderByPubDateDesc();
 	
-	List<Videogame> findByNameContainingIgnoreCaseOrderByPubDateDesc(String name);
+	Page<Videogame> findByNameContainingIgnoreCaseOrderByPubDateDesc(String name, Pageable page);
 	Page<Videogame> findAllByOrderByPubDateDesc(Pageable page);
 }

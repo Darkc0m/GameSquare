@@ -153,12 +153,36 @@ public class AppController {
 		return "mods_list";
 	}
 	
-	@GetMapping("/search/")
-	public String search(Model model, @RequestParam String name) {
-		List<Videogame> games_by_name = VideogamesRpo.findByNameContainingIgnoreCaseOrderByPubDateDesc(name);
+	@GetMapping("/search{name}{game_page}{mod_page}")
+	public String search(Model model, @RequestParam String name, @RequestParam int game_page, @RequestParam int mod_page) {
+
+		
+		
+		Page<Videogame> games_by_name = VideogamesRpo.findByNameContainingIgnoreCaseOrderByPubDateDesc(name, new PageRequest(game_page, 10));
+		Page<Mod> mods_by_name = ModsRpo.findByNameContainingIgnoreCaseOrderByPubDateDesc(name, new PageRequest(mod_page, 10));
+		
+		boolean game_empty = games_by_name.getTotalElements() == 0;
+		boolean mod_empty = games_by_name.getTotalElements() == 0;
+		
+		if(game_empty && mod_empty) {
+			model.addAttribute("message", "The search hasn't found any result containing the string '"+name+"'.");
+			return "template";
+		}
+		
+		model.addAttribute("game_page_empty", games_by_name.getNumberOfElements()==0);
+		model.addAttribute("mod_page_empty", mods_by_name.getNumberOfElements()==0);
+		model.addAttribute("first_game_page", games_by_name.isFirst() || game_empty);
+		model.addAttribute("first_mod_page", mods_by_name.isFirst() || mod_empty);	
+		model.addAttribute("no_more_games", games_by_name.isLast() || game_empty);
+		model.addAttribute("no_more_mods", mods_by_name.isLast() || mod_empty);
 		
 		model.addAttribute("games", games_by_name);
-		return "games_list";
+		model.addAttribute("mods", mods_by_name);
+		model.addAttribute("nextGamePage", "/search?name="+name+"&game_page=" + (game_page +1)+"&mod_page=" + mod_page);
+		model.addAttribute("previousGamePage", "/search?name="+name+"&game_page=" + (game_page -1)+"&mod_page=" +mod_page);
+		model.addAttribute("nextModPage", "/search?name="+name+"&game_page=" + game_page +"&mod_page=" + (mod_page+1));
+		model.addAttribute("previousModPage", "/search?name="+name+"&game_page=" + game_page+"&mod_page=" +(mod_page-1));
+		return "search_list";
 	}
 	
 	
