@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
@@ -133,17 +135,21 @@ public class AppController {
 		return "mods";
 	}
 	
-	@GetMapping("/all_games")
-	public String games_list(Model model) {
-		List<Videogame> games = VideogamesRpo.findAll();
+	@GetMapping("/all_games{page}")
+	public String games_list(Model model, @RequestParam int page) {
+		Page<Videogame> games = VideogamesRpo.findAllByOrderByPubDateDesc(new PageRequest(page,10));
 		model.addAttribute("games", games);
+		model.addAttribute("nextPage", "?page=" + (page + 1));
+		model.addAttribute("previousPage", "?page=" + (page - 1));
 		return "games_list";
 	}
 	
-	@GetMapping("/all_mods")
-	public String mods_list(Model model) {
-		List<Mod> mods = ModsRpo.findAll();
+	@GetMapping("/all_mods{page}")
+	public String mods_list(Model model, @RequestParam int page) {
+		Page<Mod> mods = ModsRpo.findAllByOrderByPubDateDesc(new PageRequest(page,10));
 		model.addAttribute("mods", mods);
+		model.addAttribute("nextPage", "?page=" + (page + 1));
+		model.addAttribute("previousPage", "?page=" + (page - 1));
 		return "mods_list";
 	}
 	
