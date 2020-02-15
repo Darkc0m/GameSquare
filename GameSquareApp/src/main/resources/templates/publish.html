@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+{{#isGame}}
+<form action="../p_game" method="post">
+<fieldset>
+	<legend>Publish game:</legend>
+	Name:
+	  <input type="text" name="name"><br>
+	  Genre:
+	  <input type="text" name="genre"><br>
+	  Description:
+	  <input type="textarea" name="description"><br>
+	  <input type="submit" value="Publish">
+	</fieldset>
+</form>
+{{/isGame}}
+{{#isMod}}
+<form action="../p_mod" method="post">
+<fieldset>
+	<legend>Publish mod:</legend>
+	Name:
+	  <input type="text" name="name"><br>
+	  Genre:
+	  <input type="text" name="genre"><br>
+	  For the game:
+	  <input type="text" name="game"><br>
+	  Description:
+	  <textarea name="description"><br>
+	  <input type="submit" value="Publish"><br>
+	</fieldset>
+</form>
+{{/isMod}}
+<a class="button" href="/profile">Cancel</a><br>
+</body>
+</html>

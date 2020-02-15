@@ -1,17 +1,18 @@
 package es.GameSquare.GameSquareApp;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Mod extends Software{
 	
 	//Attributes
-	private String game;
+	@ManyToOne
+	private Videogame videogame;
 	
 	//Constructors
-	public Mod(String name, String genre, String description, String developer,String game) {
+	public Mod(String name, String genre, String description, String developer) {
 		super(name, genre, description, developer);
-		this.game = game;
 	}
 	
 	public Mod() {
@@ -19,12 +20,12 @@ public class Mod extends Software{
 	}
   
 	//Getters & Setters
-	public String getGame() {
-		return game;
+	public Videogame getVideogame() {
+		return videogame;
 	}
 
-	public void setGame(String game) {
-		this.game = game;
+	public void setVideogame(Videogame videogame) {
+		this.videogame = videogame;
 	}
 
 }

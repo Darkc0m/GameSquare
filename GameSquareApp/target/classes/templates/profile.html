@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{{user.userName}}'s profile</title>
+</head>
+<body>
+<nav>
+<a class="button" href="modify">Modify profile</a>
+</nav>
+<div>
+	<p>Username: {{user.userName}}
+	Email: {{user.email}}
+	No. of comments: {{user.comments.lenght}}
+	Register date: {{user.regDate}}</p>
+</div>
+<div>
+<a class="button" href="/publish/game">Publish a new game</a>
+<p>Published games:
+{{#user.games}}
+<a href="/games/{{id}}">{{name}}, </a>
+{{/user.games}}
+</div>
+<a class="button" href="/publish/mod">Publish a new mod</a>
+<p>Published mods:
+{{#user.mods}}
+<a href="/mods/{{id}}">{{name}}, </a>
+{{/user.mods}}
+</div>
+</body>
+</html>
