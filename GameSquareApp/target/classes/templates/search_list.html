@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Games</title>
+	<link rel="stylesheet" type="text/css" href="/styles.css" />  
+</head>
+
+<body>	
+	{{>header}}
+	{{^game_page_empty}}
+		<h1>Games Found</h1>
+		<hr>
+		<table>
+		<tbody>
+				<tr>
+				{{#games}}
+					<td><a href="/games/{{id}}">{{name}} by {{developer}}</a></td>
+				{{/games}}
+				</tr>
+				<tr>
+					<td>
+					{{^first_game_page}}
+					<a href={{previousGamePage}}> [<<] </a>
+					{{/first_game_page}}
+					
+					{{^no_more_games}}	
+						<a href={{nextGamePage}}> [>>] </a>
+					{{/no_more_games}}
+					</td>
+				</tr>
+		</tbody>
+		</table>	
+	{{/game_page_empty}}
+			
+	{{^mod_page_empty}}
+			<h1>Mods Found</h1>
+			<hr>
+			<table>
+			<tbody>
+				<tr>
+				{{#mods}}
+					<td><a href="/mods/{{id}}">{{name}} by {{developer}}</a></td>
+				{{/mods}}
+				</tr>
+				</tr>
+					<td>
+					{{^first_mod_page}}
+					<a href={{previousModPage}}> [<<] </a>
+					{{/first_mod_page}}
+									
+					{{^no_more_mods}}				
+						<a href={{nextModPage}}> [>>] </a>
+					{{/no_more_mods}}
+					</td>
+				<tr>
+			
+		</tbody>
+		</table>
+	{{/mod_page_empty}}
+	
+</body>
+</html>

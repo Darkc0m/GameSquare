@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mods</title>
+</head>
+<body>	
+	<form action="/">
+		<table>
+		<tbody>
+			<tr>
+			{{#mods}}
+				<td><a href="/mods/{{id}}">{{name}}</a></td>
+			{{/mods}}
+			</tr>
+		</tbody>
+	</table><br>
+	</form>
+	<p><a href={{previousPage}}>«</a><a href={{nextPage}}>»</a><p>
+</body>
+</html>

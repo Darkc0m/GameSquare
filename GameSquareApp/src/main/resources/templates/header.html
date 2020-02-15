@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<nav>
+		<div class="space_top">
+			<h2 class="top_bar">Game Square</h2>
+			<form class="searchbox" action="/search">			
+				<input type="text" placeholder="Search..." name="name">
+				<input type="hidden" name="game_page" value="0" />
+				<input type="hidden" name="mod_page" value="0" />
+				<button type="submit">Submit</button>
+			</form>
+			<a class="top_bar" href = {{user_mapping}}>{{username}}</a>
+			<a class="top_bar" href = "{{rl_link}}">{{rl}}</a>	
+		</div>
+	</nav><br>
+</body>
+</html>
