@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AppController {
 	
 	@Autowired
+	private UsersRepository UsersRpo;
+	
+	@Autowired
 	private VideogamesRepository VideogamesRpo;
 	
 	@Autowired
@@ -65,6 +68,63 @@ public class AppController {
 		model.addAttribute("games", games);
 		model.addAttribute("mods", mods);
 		return "index";
+	}
+	
+	@GetMapping("/profile/modify")
+	public String modifyProfile(Model model) {
+		//model.addAttribute("user", user);
+		return "modify_profile";
+	}
+	
+	@PostMapping("/profile/modified")
+	public String modifiedProfile(Model model, String username, String password, String email) {
+		//Coger el usuario actual 
+		/*
+		user.setUserName(username);
+		user.setPassword(password);
+		user.setEmail(email);
+		UsersRpo.save(user);
+		*/
+		return "profile";
+	}
+	
+	@GetMapping("/publish/{software}")
+	public String publish(Model model, @PathVariable String software) {
+		boolean isMod = false;
+		boolean isGame = false;
+		switch(software) {
+		case "game":
+			isGame = true;
+			break;
+		case "mod":
+			isMod = true;
+			break;
+		}
+		model.addAttribute("isMod", isMod);
+		model.addAttribute("isGame", isGame);
+		return "publish";
+	}
+	
+	@PostMapping("/publish/p_game")
+	public String publish_game(Model model, String name, String genre, String description) {
+		
+		//Videogame vg = new Videogame(name, genre, description);
+		//VideogamesRpo.save(vg);
+		
+		return "publish_game";
+	}
+	
+	@PostMapping("/publish/p_mod")
+	public String publish_mod(Model model, String name, String genre, String description, String game) {
+		
+		Videogame vg = VideogamesRpo.findByName(game);
+		
+		//Mod mod = new Mod(name, genre, description);
+		//ModsRpo.save(mod);
+		//vg.getMods().add(mod);
+		//VideogamesRpo.save(vg);
+		
+		return "publish_game";
 	}
 	
 	@GetMapping("/games/{game_id}")
