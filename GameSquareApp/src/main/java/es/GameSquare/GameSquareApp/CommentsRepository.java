@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentsRepository extends JpaRepository<Comment, Long>{
 	
-	//Page<Comment>
+	Page<Comment> findBySoftwareNameOrderByPubDateDesc(String softwareName, Pageable page);
+	
 }
