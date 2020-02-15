@@ -12,12 +12,19 @@
 		<tbody>
 			<tr>
 			{{#mods}}
-				<td><a href="/mods/{{id}}">{{name}}</a></td>
+				<td><a href="/mods/{{id}}?page=0">{{name}}</a></td>
 			{{/mods}}
 			</tr>
 		</tbody>
 	</table><br>
 	</form>
-	<p><a href={{previousPage}}>«</a><a href={{nextPage}}>»</a><p>
+	<p>
+		{{#firstPage}}
+		<a href={{previousPage}}>«Newer </a>
+		{{/firstPage}}
+		{{#lastPage}}
+		<a href={{nextPage}}> Older»</a>
+		{{/lastPage}}
+	<p>
 </body>
 </html>

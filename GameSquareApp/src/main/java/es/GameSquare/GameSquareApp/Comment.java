@@ -24,8 +24,8 @@ public class Comment {
 	private String author;
 	private String body;
 	//private String pubDate;
-	private Date pubDate;
-	private String softwareName;
+	private String pubDate;
+	private String owner;
 	
 	/*
 	//To take the date
@@ -37,9 +37,8 @@ public class Comment {
 	public Comment(String author, String body, String softwareName) {
 		this.author = author;
 		this.body = body;
-		this.softwareName = softwareName;
-		//this.pubDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());;
-		this.pubDate = new Date();
+		this.owner = softwareName;
+		this.pubDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());;
 	}
 	
 	public Comment() {
@@ -59,14 +58,14 @@ public class Comment {
 	public void setBody(String body) {
 		this.body = body;
 	}
-	public Date getPubDate() {
+	public String getPubDate() {
 		return pubDate;
 	}
-	public void setPubDate(Date pubDate) {
+	public void setPubDate(String pubDate) {
 		this.pubDate = pubDate;
 	}
 	public String getSoftwareName() {
-		return softwareName;
+		return owner;
 	}
 	public void setSoftwareName(String softwareName) {
 		softwareName = softwareName;

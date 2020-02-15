@@ -16,17 +16,17 @@
 		<tbody>
 				<tr>
 				{{#games}}
-					<td><a href="/games/{{id}}">{{name}} by {{developer}}</a></td>
+					<td><a href="/games/{{id}}?pageComments=0&pageMods=0">{{name}} by {{developer}}</a></td>
 				{{/games}}
 				</tr>
 				<tr>
 					<td>
 					{{^first_game_page}}
-					<a href={{previousGamePage}}> [<<] </a>
+					<a href={{previousGamePage}}> [<<]Newer </a>
 					{{/first_game_page}}
 					
 					{{^no_more_games}}	
-						<a href={{nextGamePage}}> [>>] </a>
+						<a href={{nextGamePage}}> Older[>>] </a>
 					{{/no_more_games}}
 					</td>
 				</tr>
@@ -41,17 +41,17 @@
 			<tbody>
 				<tr>
 				{{#mods}}
-					<td><a href="/mods/{{id}}">{{name}} by {{developer}}</a></td>
+					<td><a href="/mods/{{id}}?page=0">{{name}} by {{developer}}</a></td>
 				{{/mods}}
 				</tr>
 				</tr>
 					<td>
 					{{^first_mod_page}}
-					<a href={{previousModPage}}> [<<] </a>
+					<a href={{previousModPage}}> [<<]Newer </a>
 					{{/first_mod_page}}
 									
 					{{^no_more_mods}}				
-						<a href={{nextModPage}}> [>>] </a>
+						<a href={{nextModPage}}> Older[>>] </a>
 					{{/no_more_mods}}
 					</td>
 				<tr>

@@ -14,6 +14,14 @@
 					width:25%;
 					height:280px;
 		}
+		#pageComments { float:left;
+						width:75%;
+						text-align: center;
+		}
+		#pageMods { float:left;
+						width:25%;
+						text-align: center;
+		}
 	</style>
 	
 </head>
@@ -24,27 +32,42 @@
 	<p>{{vg.description}}</p>
 	
 	<form action="sent_comment/{{vg.id}}" method="post">
-		<textarea name='body' rows=5 cols=40>Write your comment here...</textarea>
+		<textarea name='body' rows=5 cols=40 placeholder="Write your comment here..."></textarea>
 		<input type='submit' value='Enviar'/>
 	</form>
 	
-	{{#vg.comments}}
+	{{#comments}}
 	<h4>Por {{author}} a las {{pubDate}}</h4>
 	<p>{{body}}</p>
-	{{/vg.comments}}
+	{{/comments}}
 	
-	<p><a href={{previousPage}}>«</a><a href={{nextPage}}>»</a><p>
+	<p id = "pageComments">
+		{{#first_comment_page}}
+		<a href={{previousPageComments}}>«Newer </a>
+		{{/first_comment_page}}
+		{{#last_comment_page}}
+		<a href={{nextPageComments}}> Older»</a>
+		{{/last_comment_page}}
+	<p>
 	</div>
 	<div id = "rightside">
 		<table>
 			<table>
                 <ul>
-                {{#vg.mods}}
+                {{#mods}}
                   <li><a href="/mods/{{id}}?page=0">{{name}}</a> - {{genre}}</li>
-                {{/vg.mods}}
+                {{/mods}}
                 </ul>
               </table> 
 		</table>
+		<p id = "pageMods">
+		{{#first_mods_page}}
+		<a href={{previousPageMods}}>«Newer </a>
+		{{/first_mods_page}}
+		{{#last_mods_page}}
+		<a href={{nextPageMods}}> Older»</a>
+		{{/last_mods_page}}
+		<p>
 	</div>
 
 </body>
