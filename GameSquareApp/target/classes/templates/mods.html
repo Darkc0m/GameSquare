@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>{{mod.name}}</title>
+<style>
+	#page{text-align:center}
+</style>
 </head>
 <body>
 
@@ -11,16 +14,19 @@
 	<p>{{mod.description}}</p>
 	
 	<form action="sent_comment/{{mod.id}}" method="post">
-		<textarea name='body' rows=5 cols=40>Write your comment here...</textarea>
+		<textarea name='body' rows=5 cols=40 template="Write your comment here..."></textarea>
 		<input type='submit' value='Enviar'/>
 	</form>
 	
-	{{#mod.comments}}
+	{{#comments}}
 	<h4>Por {{author}} a las {{pubDate}}</h4>
 	<p>{{body}}</p>
-	{{/mod.comments}}
+	{{/comments}}
 	
-	<p><a href={{previousPage}}>«</a><a href={{nextPage}}>»</a><p>
+	<p id="page">
+		{{#first_comment_page}}<a href={{previousPage}}>«Newer </a>{{/first_comment_page}}
+		{{#last_comment_page}}<a href={{nextPage}}> Older»</a>{{/last_comment_page}}
+	<p>
 	
 
 </body>

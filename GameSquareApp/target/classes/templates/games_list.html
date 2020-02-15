@@ -12,12 +12,19 @@
 		<tbody>
 			<tr>
 			{{#games}}
-				<td><a href="/games/{{id}}">{{name}} by {{developer}}</a></td>
+				<td><a href="/games/{{id}}?pageComments=0&pageMods=0">{{name}} by {{developer}}</a></td>
 			{{/games}}
 			</tr>
 		</tbody>
 	</table><br>
 	</form>
-	<p><a href={{previousPage}}>«</a><a href={{nextPage}}>»</a><p>
+	<p>
+		{{#firstPage}}
+		<a href={{previousPage}}>«Newer </a>
+		{{/firstPage}}
+		{{#lastPage}}
+		<a href={{nextPage}}> Older»</a>
+		{{/lastPage}}
+	<p>
 </body>
 </html>

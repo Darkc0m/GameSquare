@@ -159,40 +159,51 @@ public class AppController {
 	}
 	
 	@GetMapping("/games/{game_id}")
-	public String game(Model model, @PathVariable String game_id, @RequestParam int page) {
+	public String game(Model model, @PathVariable String game_id, @RequestParam int pageComments, @RequestParam int pageMods) {
 		
 		Videogame videogame = VideogamesRpo.getOne(Long.parseLong(game_id));
-		Page<Comment> comments = CommentsRpo.findBySoftwareNameOrderByPubDateDesc(videogame.name, new PageRequest(page,1));
+		Page<Comment> comments = CommentsRpo.findByOwnerOrderByPubDateDesc(videogame.getName(), new PageRequest(pageComments,5));
+		Page<Mod> mods = ModsRpo.findByVideogameNameOrderByPubDateDesc(videogame.getName(), new PageRequest(pageMods, 5));
 		model.addAttribute("vg", videogame);
 		model.addAttribute("comments", comments);
-		model.addAttribute("nextPage", game_id + "?page=" + (page + 1));
-		model.addAttribute("previousPage", game_id + "?page=" + (page - 1));
+		model.addAttribute("mods", mods);
+		model.addAttribute("nextPageComments", game_id + "?pageComments=" + (pageComments + 1) + "&pageMods=" + pageMods);
+		model.addAttribute("previousPageComments", game_id + "?pageComments=" + (pageComments - 1) + "&pageMods=" + pageMods);
+		model.addAttribute("nextPageMods", game_id + "?pageComments=" + pageComments + "&pageMods=" + (pageMods + 1));
+		model.addAttribute("previousPageMods", game_id + "?pageComments=" + pageComments + "&pageMods=" + (pageMods - 1));
+		
+		model.addAttribute("first_comment_page", !comments.isFirst());
+		model.addAttribute("last_comment_page", !comments.isLast());
+		model.addAttribute("first_mods_page", !mods.isFirst());
+		model.addAttribute("last_mods_page", !mods.isLast());
 		
 		return "games";
 	}
 	
-	@PostMapping("/games/sent_comment/{game_id}")
-	public String game_comment(Model model, @PathVariable String game_id, String body) {
+	@PostMapping("/{software}/sent_comment/{software_id}")
+	public String game_comment(Model model, @PathVariable String software, @PathVariable String software_id, String body) {
+		switch(software) {
+			case "games":
+				Videogame videogame = VideogamesRpo.getOne(Long.parseLong(software_id));
+				Comment comment_game = new Comment("Mayro",body, videogame.getName());
+				CommentsRpo.save(comment_game);
+				videogame.getComments().add(comment_game);
+				model.addAttribute("software", videogame);
+				model.addAttribute("isGame", true);
+				VideogamesRpo.save(videogame);
+				
+				break;
+			case "mods":
+				Mod mod = ModsRpo.getOne(Long.parseLong(software_id));
+				Comment comment_mod = new Comment("Mayro",body, mod.getName());
+				CommentsRpo.save(comment_mod);
+				mod.getComments().add(comment_mod);
+				model.addAttribute("software", mod);
+				model.addAttribute("isGame", false);
+				ModsRpo.save(mod);
+				break;
+		}
 		
-		Videogame videogame = VideogamesRpo.getOne(Long.parseLong(game_id));
-		Comment comment = new Comment("Mayro",body, videogame.getName());
-		CommentsRpo.save(comment);
-		videogame.getComments().add(comment);
-		model.addAttribute("software", videogame);
-		VideogamesRpo.save(videogame);
-		
-		return "sent_comment";
-	}
-	
-	@PostMapping("/mods/sent_comment/{mod_id}")
-	public String mod_comment(Model model, @PathVariable String mod_id, String body) {
-		
-		Mod mod = ModsRpo.getOne(Long.parseLong(mod_id));
-		Comment comment = new Comment("Mayro",body, mod.getName());
-		CommentsRpo.save(comment);
-		mod.getComments().add(comment);
-		model.addAttribute("software", mod);
-		ModsRpo.save(mod);
 		
 		return "sent_comment";
 	}
@@ -201,11 +212,13 @@ public class AppController {
 	public String mod(Model model, @PathVariable String mod_id, @RequestParam int page) {
 		
 		Mod mod = ModsRpo.getOne(Long.parseLong(mod_id));
-		Page<Comment> comments = CommentsRpo.findBySoftwareNameOrderByPubDateDesc(mod.name, new PageRequest(page,1));
+		Page<Comment> comments = CommentsRpo.findByOwnerOrderByPubDateDesc(mod.getName(), new PageRequest(page,5));
 		model.addAttribute("mod", mod);
 		model.addAttribute("comments", comments);
 		model.addAttribute("nextPage", mod_id + "?page=" + (page + 1));
 		model.addAttribute("previousPage", mod_id + "?page=" + (page - 1));
+		model.addAttribute("first_comment_page", !comments.isFirst());
+		model.addAttribute("last_comment_page", !comments.isLast());
 		
 		return "mods";
 	}
@@ -218,6 +231,8 @@ public class AppController {
 		model.addAttribute("games", games);
 		model.addAttribute("nextPage", "?page=" + (page + 1));
 		model.addAttribute("previousPage", "?page=" + (page - 1));
+		model.addAttribute("firstPage", !games.isFirst());
+		model.addAttribute("lastPage", !games.isLast());
 		return "games_list";
 	}
 	
@@ -229,6 +244,8 @@ public class AppController {
 		model.addAttribute("mods", mods);
 		model.addAttribute("nextPage", "?page=" + (page + 1));
 		model.addAttribute("previousPage", "?page=" + (page - 1));
+		model.addAttribute("firstPage", !mods.isFirst());
+		model.addAttribute("lastPage", !mods.isLast());
 		return "mods_list";
 	}
 	
