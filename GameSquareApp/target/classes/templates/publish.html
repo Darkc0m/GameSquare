@@ -6,31 +6,31 @@
 </head>
 <body>
 {{#isGame}}
-<form action="../p_game" method="post">
+<form action="/publish/p_game" method="post">
 <fieldset>
 	<legend>Publish game:</legend>
 	Name:
-	  <input type="text" name="name"><br>
+	  <input type="text" name="name" placeholder="Name"><br>
 	  Genre:
-	  <input type="text" name="genre"><br>
+	  <input type="text" name="genre" placeholder="Genre"><br>
 	  Description:
-	  <input type="textarea" name="description"><br>
+	  <textarea name="description" placeholder="Description"></textarea><br>
 	  <input type="submit" value="Publish">
 	</fieldset>
 </form>
 {{/isGame}}
 {{#isMod}}
-<form action="../p_mod" method="post">
+<form action="/publish/p_mod" method="post">
 <fieldset>
 	<legend>Publish mod:</legend>
 	Name:
-	  <input type="text" name="name"><br>
+	  <input type="text" name="name" placeholder="Name"><br>
 	  Genre:
-	  <input type="text" name="genre"><br>
+	  <input type="text" name="genre" placeholder="Genre"><br>
 	  For the game:
-	  <input type="text" name="game"><br>
+	  <input type="text" name="game" placeholder="Game"><br>
 	  Description:
-	  <textarea name="description"><br>
+	  <textarea name="description" placeholder="Description"></textarea><br>
 	  <input type="submit" value="Publish"><br>
 	</fieldset>
 </form>

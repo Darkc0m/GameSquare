@@ -24,9 +24,9 @@ public class BBDDController {
 	@PostConstruct
 	public void init() {
 		
-		User user1 = new User("Alejuandro-Chan", "Comorobarunaloli13");
-		GameDeveloper user2 = new GameDeveloper("Juez", "Kimochi");
-		ModDeveloper user3 = new ModDeveloper("Javi", "2B9S");
+		User user1 = new User("Alejuandro", "1");
+		GameDeveloper user2 = new GameDeveloper(user1.getId());
+		ModDeveloper user3 = new ModDeveloper(user1.getId());
 		
 		Videogame juego_1 = new Videogame("Nekopara", "SliceofLife", "Kawaii", "Juez");
 		

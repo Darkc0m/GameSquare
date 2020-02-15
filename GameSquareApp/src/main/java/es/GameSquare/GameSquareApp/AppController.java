@@ -27,6 +27,12 @@ public class AppController {
 	private UsersRepository UsersRpo;
 	
 	@Autowired
+	private GameDeveloperRepository DevelopersRpo;
+	
+	@Autowired
+	private ModDeveloperRepository ModdersRpo;
+	
+	@Autowired
 	private VideogamesRepository VideogamesRpo;
 	
 	@Autowired
@@ -119,6 +125,22 @@ public class AppController {
 		return "profile";
 	}
 	
+	@GetMapping("/profile")
+	public String profile(HttpSession session, Model model) {
+		User user = UsersRpo.findByUserName(session.getAttribute("username").toString());
+		
+		if(user == null) {
+			model.addAttribute("message", "User not found.");
+			return "template";
+		}				
+		
+		model.addAttribute("user", user);
+		model.addAttribute("mods", ModsRpo.findByDeveloperOrderByPubDateDesc(user.getUserName()));
+		model.addAttribute("games", VideogamesRpo.findByDeveloperOrderByPubDateDesc(user.getUserName()));
+		model.addAttribute("total_comments", user.getComments());
+		return "profile";
+	}
+	
 	@GetMapping("/publish/{software}")
 	public String publish(Model model, @PathVariable String software) {
 		boolean isMod = false;
@@ -137,25 +159,59 @@ public class AppController {
 	}
 	
 	@PostMapping("/publish/p_game")
-	public String publish_game(Model model, String name, String genre, String description) {
+	public String publish_game(HttpSession session, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description) {
 		
-		//Videogame vg = new Videogame(name, genre, description);
-		//VideogamesRpo.save(vg);
+		String username = session.getAttribute("username").toString();
 		
-		return "publish_game";
+		Videogame vg = new Videogame(name, genre, description, username);
+		VideogamesRpo.save(vg);
+		
+		User current = UsersRpo.findByUserName(username);
+		
+		//If developer doesnt exist we create it
+		if(current.getDeveloper() == null) {
+			GameDeveloper dev = new GameDeveloper(current.getId());
+			DevelopersRpo.save(dev);
+			current.setDeveloper(dev);
+			UsersRpo.save(current);
+		}
+		
+		current.getDeveloper().addGame(vg);
+		DevelopersRpo.save(current.getDeveloper());		
+		UsersRpo.save(current);
+		
+		model.addAttribute("message", "Game added successfully.");
+		return "template";
 	}
 	
 	@PostMapping("/publish/p_mod")
-	public String publish_mod(Model model, String name, String genre, String description, String game) {
+	public String publish_mod(HttpSession session, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description, @RequestParam String game) {
 		
-		Videogame vg = VideogamesRpo.findByName(game);
+		String username = session.getAttribute("username").toString();
 		
-		//Mod mod = new Mod(name, genre, description);
-		//ModsRpo.save(mod);
-		//vg.getMods().add(mod);
-		//VideogamesRpo.save(vg);
+
+		Mod mod = new Mod(name, genre, description, username);
+		//Falta asociar el juego para el que es
+		mod.setVideogame(VideogamesRpo.findByName("Nekopara"));
 		
-		return "publish_game";
+		ModsRpo.save(mod);
+		
+		User current = UsersRpo.findByUserName(username);
+		
+		//If modder doesnt exist we create it
+		if(current.getModder() == null) {
+			ModDeveloper modder = new ModDeveloper(current.getId());
+			ModdersRpo.save(modder);
+			current.setModder(modder);
+			UsersRpo.save(current);
+		}
+		
+		current.getModder().addMod(mod);
+		ModdersRpo.save(current.getModder());		
+		UsersRpo.save(current);
+		
+		model.addAttribute("message", "Mod added successfully.");
+		return "template";
 	}
 	
 	@GetMapping("/games/{game_id}")
@@ -281,7 +337,7 @@ public class AppController {
 		// Logged
 		if(session.getAttributeNames().hasMoreElements()) {
 			username = session.getAttribute("username").toString();
-			user_mapping = "/users/"+username;
+			user_mapping = "/profile";
 			register_logout = "Logout";
 			rl_link = "/logout";
 		}

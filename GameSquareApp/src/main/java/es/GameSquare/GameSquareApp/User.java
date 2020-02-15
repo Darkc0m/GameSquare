@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Null;
 
 @Entity
 public class User {
@@ -30,6 +31,7 @@ public class User {
 	protected String userName;
 	protected String password;
 	protected String regDate;
+	protected String email = "email";
 	
 	@OneToMany
 	protected List<Comment> comments;
@@ -96,6 +98,22 @@ public class User {
 
 	public void setModder(ModDeveloper modder) {
 		this.modder = modder;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public long getId() {
+		return id;
 	}
 	
 
