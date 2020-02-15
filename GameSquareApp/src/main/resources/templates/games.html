@@ -30,12 +30,12 @@
 	<div id = "leftside">
 	<h2>A game by {{vg.developer}} - Genre: {{vg.genre}}</h2>
 	<p>{{vg.description}}</p>
-	
+	{{#isLogged}}
 	<form action="sent_comment/{{vg.id}}" method="post">
 		<textarea name='body' rows=5 cols=40 placeholder="Write your comment here..."></textarea>
 		<input type='submit' value='Enviar'/>
 	</form>
-	
+	{{/isLogged}}
 	{{#comments}}
 	<h4>Por {{author}} a las {{pubDate}}</h4>
 	<p>{{body}}</p>

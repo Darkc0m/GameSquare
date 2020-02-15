@@ -215,7 +215,7 @@ public class AppController {
 	}
 	
 	@GetMapping("/games/{game_id}")
-	public String game(Model model, @PathVariable String game_id, @RequestParam int pageComments, @RequestParam int pageMods) {
+	public String game(HttpSession session, Model model, @PathVariable String game_id, @RequestParam int pageComments, @RequestParam int pageMods) {
 		
 		Videogame videogame = VideogamesRpo.getOne(Long.parseLong(game_id));
 		Page<Comment> comments = CommentsRpo.findByOwnerOrderByPubDateDesc(videogame.getName(), new PageRequest(pageComments,5));
@@ -227,6 +227,7 @@ public class AppController {
 		model.addAttribute("previousPageComments", game_id + "?pageComments=" + (pageComments - 1) + "&pageMods=" + pageMods);
 		model.addAttribute("nextPageMods", game_id + "?pageComments=" + pageComments + "&pageMods=" + (pageMods + 1));
 		model.addAttribute("previousPageMods", game_id + "?pageComments=" + pageComments + "&pageMods=" + (pageMods - 1));
+		model.addAttribute("isLogged", session.getAttribute("username") != null);
 		
 		model.addAttribute("first_comment_page", !comments.isFirst());
 		model.addAttribute("last_comment_page", !comments.isLast());
@@ -237,11 +238,11 @@ public class AppController {
 	}
 	
 	@PostMapping("/{software}/sent_comment/{software_id}")
-	public String game_comment(Model model, @PathVariable String software, @PathVariable String software_id, String body) {
+	public String game_comment(HttpSession session, Model model, @PathVariable String software, @PathVariable String software_id, String body) {
 		switch(software) {
 			case "games":
 				Videogame videogame = VideogamesRpo.getOne(Long.parseLong(software_id));
-				Comment comment_game = new Comment("Mayro",body, videogame.getName());
+				Comment comment_game = new Comment(session.getAttribute("username").toString(),body, videogame.getName());
 				CommentsRpo.save(comment_game);
 				videogame.getComments().add(comment_game);
 				model.addAttribute("software", videogame);
@@ -251,7 +252,7 @@ public class AppController {
 				break;
 			case "mods":
 				Mod mod = ModsRpo.getOne(Long.parseLong(software_id));
-				Comment comment_mod = new Comment("Mayro",body, mod.getName());
+				Comment comment_mod = new Comment(session.getAttribute("username").toString(),body, mod.getName());
 				CommentsRpo.save(comment_mod);
 				mod.getComments().add(comment_mod);
 				model.addAttribute("software", mod);
@@ -265,7 +266,7 @@ public class AppController {
 	}
 	
 	@GetMapping("/mods/{mod_id}")
-	public String mod(Model model, @PathVariable String mod_id, @RequestParam int page) {
+	public String mod(HttpSession session, Model model, @PathVariable String mod_id, @RequestParam int page) {
 		
 		Mod mod = ModsRpo.getOne(Long.parseLong(mod_id));
 		Page<Comment> comments = CommentsRpo.findByOwnerOrderByPubDateDesc(mod.getName(), new PageRequest(page,5));
@@ -275,6 +276,7 @@ public class AppController {
 		model.addAttribute("previousPage", mod_id + "?page=" + (page - 1));
 		model.addAttribute("first_comment_page", !comments.isFirst());
 		model.addAttribute("last_comment_page", !comments.isLast());
+		model.addAttribute("isLogged", session.getAttribute("username") != null);
 		
 		return "mods";
 	}
@@ -352,7 +354,7 @@ public class AppController {
 		String rl_link = "/register"; 
 		
 		// Logged
-		if(session.getAttributeNames().hasMoreElements()) {
+		if(session.getAttribute("username") != null) {
 			username = session.getAttribute("username").toString();
 			user_mapping = "/profile";
 			register_logout = "Logout";
