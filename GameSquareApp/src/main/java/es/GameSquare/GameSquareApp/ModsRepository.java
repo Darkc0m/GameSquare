@@ -20,4 +20,5 @@ public interface ModsRepository extends JpaRepository<Mod, Long>{
 	Page<Mod> findAllByOrderByPubDateDesc(Pageable page);
 	
 	List<Mod> findByDeveloperOrderByPubDateDesc(String developer);
+	List<Mod> findByDeveloper(String developer);
 }

@@ -20,4 +20,5 @@ public interface VideogamesRepository extends JpaRepository<Videogame, Long>{
 	Page<Videogame> findAllByOrderByPubDateDesc(Pageable page);
 	
 	List<Videogame> findByDeveloperOrderByPubDateDesc(String developer);
+	List<Videogame> findByDeveloper(String developer);
 }

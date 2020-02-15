@@ -108,21 +108,59 @@ public class AppController {
 	}
 	
 	@GetMapping("/profile/modify")
-	public String modifyProfile(Model model) {
-		//model.addAttribute("user", user);
+	public String modifyProfile(HttpSession session, Model model) {
+		model.addAttribute("user", UsersRpo.findByUserName(session.getAttribute("username").toString()));
 		return "modify_profile";
 	}
 	
 	@PostMapping("/profile/modified")
-	public String modifiedProfile(Model model, String username, String password, String email) {
-		//Coger el usuario actual 
-		/*
+	public String modifiedProfile(HttpSession session, Model model, @RequestParam String username, @RequestParam String password, @RequestParam String email) {
+		String previous_username = session.getAttribute("username").toString();
+		User user = UsersRpo.findByUserName(previous_username);
+		
 		user.setUserName(username);
 		user.setPassword(password);
 		user.setEmail(email);
 		UsersRpo.save(user);
-		*/
-		return "profile";
+
+		if(!previous_username.equals(username)) {
+			
+			//Games
+			if(user.getDeveloper() != null) {
+				List<Videogame> v_Old = VideogamesRpo.findByDeveloper(previous_username);			
+				List<Videogame> v_new = new ArrayList<Videogame>();
+				
+				for(int i = 0; i < v_Old.size(); i++) {
+					Videogame v = v_Old.get(i);
+					v.setDeveloper(username);
+					VideogamesRpo.save(v);
+					v_new.add(v);
+				}
+				GameDeveloper dev = DevelopersRpo.findOne(user.id); 
+				dev.setGames(v_new);
+			}
+			
+			//Mods
+			if(user.getModder() != null) {
+				List<Mod> m_Old = ModsRpo.findByDeveloper(previous_username);
+				List<Mod> m_new = new ArrayList<Mod>();
+				
+				for(int i = 0; i < m_Old.size(); i++) {
+					Mod m = m_Old.get(i);
+					m.setDeveloper(username);
+					ModsRpo.save(m);
+					m_new.add(m);
+				}
+				ModDeveloper modder = ModdersRpo.findOne(user.id); 
+				modder.setGames(m_new);
+			}
+		}
+		
+		session.setAttribute("username", username);
+		session.setAttribute("password", password);
+		
+		model.addAttribute("message","Profile modified successfully!");
+		return "template";
 	}
 	
 	@GetMapping("/profile")

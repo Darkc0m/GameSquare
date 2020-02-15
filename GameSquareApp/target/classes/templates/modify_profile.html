@@ -5,13 +5,13 @@
 <title>Modify Profile</title>
 </head>
 <body>
-<form action="../modified">
+<form action="modified" method="post">
 <fieldset>
 	<legend>Modify your profile:</legend>
 	Username:
-	<input type="text" name="username" value={{user.name}}><br>
+	<input type="text" name="username" value={{user.userName}}><br>
 	Password:
-	<input type="password" name="password" value={{user.passsword}}><br>
+	<input type="password" name="password" value={{user.password}}><br>
 	Email:
 	<input type="text" name="email" value={{user.email}}><br>
 	<input type="submit" value="Modify">
