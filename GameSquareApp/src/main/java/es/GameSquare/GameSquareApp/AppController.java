@@ -120,7 +120,9 @@ public class AppController {
 	}
 	
 	@GetMapping("/all_games{page}")
-	public String games_list(Model model, @RequestParam int page) {
+	public String games_list(HttpSession session, Model model, @RequestParam int page) {
+		session_params(model, session);
+		
 		Page<Videogame> games = VideogamesRpo.findAllByOrderByPubDateDesc(new PageRequest(page,10));
 		model.addAttribute("games", games);
 		model.addAttribute("nextPage", "?page=" + (page + 1));
@@ -129,7 +131,9 @@ public class AppController {
 	}
 	
 	@GetMapping("/all_mods{page}")
-	public String mods_list(Model model, @RequestParam int page) {
+	public String mods_list(HttpSession session, Model model, @RequestParam int page) {
+		session_params(model, session);
+		
 		Page<Mod> mods = ModsRpo.findAllByOrderByPubDateDesc(new PageRequest(page,10));
 		model.addAttribute("mods", mods);
 		model.addAttribute("nextPage", "?page=" + (page + 1));
@@ -148,7 +152,7 @@ public class AppController {
 		boolean mod_empty = games_by_name.getTotalElements() == 0;
 		
 		if(game_empty && mod_empty) {
-			model.addAttribute("message", "The search hasn't found any result containing the string '"+name+"'.");
+			model.addAttribute("message", "The search hasn't found any result containing '"+name+"'.");
 			return "template";
 		}
 		

@@ -52,12 +52,37 @@ a:hover{
 }
 .searchbox input{
   	border: none;
+  	border-radius: 5px;
   	font-size: 15px;
   	width: 60%;
   	height: 100%;
   	padding: 0;
   	margin: 0 auto;
   	vertical-align:middle;
+}
+div.container form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) 
+}
+form input[type=submit]{
+	width: 60%;
+  	height: 60%;
+  	margin: 10%;
+  	position: relative;  	
+  	float: right;
+  	padding: 5%
+}
+button, input[type=submit]{
+	border: none;
+	background-color: red;
+	color: white;
+	border-radius: 5px;
+}
+button:hover, input[type=submit]:hover{
+	background-color: #d91900;
 }
 .searchbox button{
   	width: 40%;
@@ -66,16 +91,19 @@ a:hover{
 }  
 .button{
 	  text-decoration: none;
-	  background-color: white;
-	  color: #black;
+	  background-color: red;
+	  color: white;
 	  padding: 5px;
-	  border: 2px solid #888;
 	  border-radius: 5px;
 	  margin-left: 10px;		
 }
 a.button:hover{
-  	  background-color: #888;
+  	  background-color: #d91900;
 }
 table{
   	border-spacing: 20px 10px;
+}
+fieldset {
+    display: inline-block;
+    margin: auto;
 }
