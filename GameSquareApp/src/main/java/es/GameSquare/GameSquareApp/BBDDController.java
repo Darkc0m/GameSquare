@@ -20,7 +20,7 @@ public class BBDDController {
 	
 	@Autowired
 	private ModsRepository ModsRpo;
-	/*
+	
 	@PostConstruct
 	public void init() {
 		
@@ -71,5 +71,5 @@ public class BBDDController {
 		
 		//List<User> users = UsersRpo.findAll();
 	}
-*/
+
 }
