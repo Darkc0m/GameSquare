@@ -1,10 +1,15 @@
 <html>
 <head>
 	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
 <body>
-	<blockquote>{{message}}</blockquote>
-	<a href="/">Continuar</a>
+	<div class = "centered">
+		<nav class="dialog">
+			<blockquote>{{message}}</blockquote>
+			<a href="{{link}}" class="button" style="float:right;">Continue</a>
+		</nav>	
+	</div>
 </body>
 
 </html>

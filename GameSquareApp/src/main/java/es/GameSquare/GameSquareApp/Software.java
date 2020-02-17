@@ -44,7 +44,7 @@ public class Software {
 		this.genre = genre;
 		this.description = description;
 		this.developer = developer;
-		this.pubDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+		this.pubDate = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(new Date());
 		comments = new ArrayList<Comment>();		
 	}
 
