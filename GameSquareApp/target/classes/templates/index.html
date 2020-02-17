@@ -9,33 +9,26 @@
 <body>
 	{{> header}}
 		
-	<h1>Latest Games</h1>
+	<h1 class="title">Latest Games</h1>
 	<a class="button" href="/all_games?page=0">View All</a><br>
 	<hr>
 	
-	<table>
-		<tbody>
-			<tr>
-			{{#games}}
-				<td><a href="/games/{{id}}?pageComments=0&pageMods=0">{{name}}</a></td>
-			{{/games}}
-			</tr>
-		</tbody>
-	</table><br>
+	<div>
+	{{#games}}
+		<div class="list_elem"><a href="/games/{{id}}?pageComments=0&pageMods=0">{{name}}</a></div>
+	{{/games}}
+	</div>
+	<br>
 	
-	<h1>Latest Mods </h1>
+	<h1 class="title">Latest Mods </h1>
 	<a class="button" href="/all_mods?page=0">View All</a><br>
 	<hr>
 	
-		<table>
-		<tbody>
-			<tr>
-			{{#mods}}
-				<td><a href="/mods/{{id}}?page=0">{{name}} for {{videogame.name}}</a></td>
-			{{/mods}}
-			</tr>
-		</tbody>
-	</table>
-	
+	<div>
+	{{#mods}}
+		<div class="list_elem"><a href="/mods/{{id}}?page=0">{{name}} for {{videogame.name}}</a></div>
+	{{/mods}}	
+	</div>
+
 </body>
 </html>

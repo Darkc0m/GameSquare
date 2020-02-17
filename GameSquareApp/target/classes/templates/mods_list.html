@@ -7,17 +7,13 @@
 </head>
 <body>	
 	{{>header}}
-	<form action="/">
-		<table>
-		<tbody>
-			<tr>
-			{{#mods}}
-				<td><a href="/mods/{{id}}?page=0">{{name}}</a></td>
-			{{/mods}}
-			</tr>
-		</tbody>
-	</table><br>
-	</form>
+	<h1 class="title">All Mods</h1>
+	<hr>
+	<div>
+		{{#mods}}
+			<div class="list_elem"><a href="/mods/{{id}}?page=0">{{name}}</a></div>
+		{{/mods}}		
+	</div>	
 	<p>
 		{{#firstPage}}
 		<a href={{previousPage}}>«Newer </a>

@@ -7,17 +7,20 @@
 </head>
 <body>
 {{>header}}
+<h1 class="title">Profile</h1>
+<hr>
+<nav class="profile">
+	<p>
+	<div class="list_elem"> Username: {{user.userName}}</div><br>
+	<div class="list_elem"> Email: {{user.email}}</div><br>
+	<div class="list_elem"> No. of comments: {{total_comments}}</div><br>
+	<div class="list_elem"> Register date: {{user.regDate}}</div></p>
+	<div>
+	<a class="button" href="/profile/modify" style="float:right">Modify profile</a>
+	</div>
+</nav>
 <div>
-	<a class="button" href="/profile/modify">Modify profile</a>
-</div>
-<div>
-	<p>Username: {{user.userName}}<br>
-	Email: {{user.email}}<br>
-	No. of comments: {{total_comments}}<br>
-	Register date: {{user.regDate}}</p>
-</div>
-<div>
-<p><h1>Published games:</h1>
+<p><h1 class="title">Published games:</h1>
 <hr>
 {{#games}}
 <a href="/games/{{id}}">{{name}} </a>
@@ -25,7 +28,7 @@
 <br><a class="button" href="/publish/game" style="float:right">Publish a new game</a>
 </div>
 <br><br>
-<p><h1>Published mods:</h1>
+<p><h1 class="title">Published mods:</h1>
 <hr>
 {{#mods}}
 <a href="/mods/{{id}}">{{name}} </a>

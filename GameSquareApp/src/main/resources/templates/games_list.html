@@ -7,17 +7,13 @@
 </head>
 <body>	
 	{{>header}}
-	<form action="/">
-		<table>
-		<tbody>
-			<tr>
-			{{#games}}
-				<td><a href="/games/{{id}}?pageComments=0&pageMods=0">{{name}} by {{developer}}</a></td>
-			{{/games}}
-			</tr>
-		</tbody>
-	</table><br>
-	</form>
+	<h1 class="title">All Games</h1>
+	<hr>
+	<div>
+		{{#games}}
+			<div class="list_elem"><a href="/games/{{id}}?pageComments=0&pageMods=0">{{name}} by {{developer}}</a></div>
+		{{/games}}
+	</div>
 	<p>
 		{{#firstPage}}
 		<a href={{previousPage}}>«Newer </a>
