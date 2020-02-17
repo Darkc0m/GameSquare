@@ -23,7 +23,7 @@
 <p><h1 class="title">Published games:</h1>
 <hr>
 {{#games}}
-<a href="/games/{{id}}">{{name}} </a>
+<a href="/games/{{id}}?pageComments=0&pageMods=0">{{name}}, </a>
 {{/games}}
 <br><a class="button" href="/publish/game" style="float:right">Publish a new game</a>
 </div>
@@ -31,7 +31,7 @@
 <p><h1 class="title">Published mods:</h1>
 <hr>
 {{#mods}}
-<a href="/mods/{{id}}">{{name}} </a>
+<a href="/mods/{{id}}?page=0">{{name}}, </a>
 {{/mods}}
 </div>
 <br><a class="button" href="/publish/mod" style="float:right">Publish a new mod</a>

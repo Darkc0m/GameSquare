@@ -236,7 +236,7 @@ public class AppController {
 
 		Mod mod = new Mod(name, genre, description, username);
 		//Falta asociar el juego para el que es
-		mod.setVideogame(VideogamesRpo.findByName("Nekopara"));
+		mod.setVideogame(VideogamesRpo.findByName(game));
 		
 		ModsRpo.save(mod);
 		

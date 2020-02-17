@@ -64,11 +64,11 @@ public class Comment {
 	public void setPubDate(String pubDate) {
 		this.pubDate = pubDate;
 	}
-	public String getSoftwareName() {
+	public String getOwner() {
 		return owner;
 	}
-	public void setSoftwareName(String softwareName) {
-		softwareName = softwareName;
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
 }
