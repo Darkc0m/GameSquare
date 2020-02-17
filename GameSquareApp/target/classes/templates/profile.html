@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>{{user.userName}}'s profile</title>
+	<meta charset="UTF-8">
+	<title>{{user.userName}}'s profile</title>
+	<link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
 <body>
-<nav>
-<a class="button" href="/profile/modify">Modify profile</a>
-</nav>
+{{>header}}
 <div>
-	<p>Username: {{user.userName}}
-	Email: {{user.email}}
-	No. of comments: {{total_comments}}
+	<a class="button" href="/profile/modify">Modify profile</a>
+</div>
+<div>
+	<p>Username: {{user.userName}}<br>
+	Email: {{user.email}}<br>
+	No. of comments: {{total_comments}}<br>
 	Register date: {{user.regDate}}</p>
 </div>
 <div>
-<a class="button" href="/publish/game">Publish a new game</a>
-<p>Published games:
+<p><h1>Published games:</h1>
+<hr>
 {{#games}}
-<a href="/games/{{id}}">{{name}}, </a>
+<a href="/games/{{id}}">{{name}} </a>
 {{/games}}
+<br><a class="button" href="/publish/game" style="float:right">Publish a new game</a>
 </div>
-<a class="button" href="/publish/mod">Publish a new mod</a>
-<p>Published mods:
+<br><br>
+<p><h1>Published mods:</h1>
+<hr>
 {{#mods}}
-<a href="/mods/{{id}}">{{name}}, </a>
+<a href="/mods/{{id}}">{{name}} </a>
 {{/mods}}
 </div>
+<br><a class="button" href="/publish/mod" style="float:right">Publish a new mod</a>
 </body>
 </html>

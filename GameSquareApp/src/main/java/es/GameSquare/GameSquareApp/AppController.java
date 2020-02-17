@@ -63,6 +63,7 @@ public class AppController {
 		}
 
 		model.addAttribute("message", message);
+		model.addAttribute("link", "/");
 		return "template";
 	}
 	
@@ -89,6 +90,7 @@ public class AppController {
 		}
 
 		model.addAttribute("message", message);
+		model.addAttribute("link", "/");
 		return "template";
 	}
 	
@@ -160,15 +162,18 @@ public class AppController {
 		session.setAttribute("password", password);
 		
 		model.addAttribute("message","Profile modified successfully!");
+		model.addAttribute("link", "/profile");
 		return "template";
 	}
 	
 	@GetMapping("/profile")
 	public String profile(HttpSession session, Model model) {
+		session_params(model, session);
 		User user = UsersRpo.findByUserName(session.getAttribute("username").toString());
 		
 		if(user == null) {
 			model.addAttribute("message", "User not found.");
+			model.addAttribute("/");
 			return "template";
 		}				
 		
@@ -219,6 +224,7 @@ public class AppController {
 		UsersRpo.save(current);
 		
 		model.addAttribute("message", "Game added successfully.");
+		model.addAttribute("link", "/games/"+vg.getId()+"?pageComments=0&pageMods=0");
 		return "template";
 	}
 	
@@ -249,6 +255,7 @@ public class AppController {
 		UsersRpo.save(current);
 		
 		model.addAttribute("message", "Mod added successfully.");
+		model.addAttribute("link", "/mods/"+mod.getId()+"?page=0");
 		return "template";
 	}
 	
@@ -283,8 +290,8 @@ public class AppController {
 				Comment comment_game = new Comment(session.getAttribute("username").toString(),body, videogame.getName());
 				CommentsRpo.save(comment_game);
 				videogame.getComments().add(comment_game);
-				model.addAttribute("software", videogame);
-				model.addAttribute("isGame", true);
+				model.addAttribute("link", "/games/"+videogame.getId()+"?pageComments=0&pageMods=0");
+				model.addAttribute("message", "Successfully sent the comment!");
 				VideogamesRpo.save(videogame);
 				
 				break;
@@ -293,14 +300,14 @@ public class AppController {
 				Comment comment_mod = new Comment(session.getAttribute("username").toString(),body, mod.getName());
 				CommentsRpo.save(comment_mod);
 				mod.getComments().add(comment_mod);
-				model.addAttribute("software", mod);
-				model.addAttribute("isGame", false);
+				model.addAttribute("link", "/mods/"+mod.getId()+"?page=0");
+				model.addAttribute("message", "Successfully sent the comment!");
 				ModsRpo.save(mod);
 				break;
 		}
 		
 		
-		return "sent_comment";
+		return "template";
 	}
 	
 	@GetMapping("/mods/{mod_id}")
@@ -320,9 +327,8 @@ public class AppController {
 	}
 	
 	@GetMapping("/all_games{page}")
-	public String games_list(HttpSession session, Model model, @RequestParam int page) {
+	public String games_list_next(HttpSession session, Model model, @RequestParam int page) {
 		session_params(model, session);
-		
 		Page<Videogame> games = VideogamesRpo.findAllByOrderByPubDateDesc(new PageRequest(page,10));
 		model.addAttribute("games", games);
 		model.addAttribute("nextPage", "?page=" + (page + 1));
@@ -357,6 +363,7 @@ public class AppController {
 		
 		if(game_empty && mod_empty) {
 			model.addAttribute("message", "The search hasn't found any result containing '"+name+"'.");
+			model.addAttribute("link", "/");
 			return "template";
 		}
 		
@@ -380,6 +387,7 @@ public class AppController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session, Model model) {
 		model.addAttribute("message", "Successfully logged out!");
+		model.addAttribute("link", "/");
 		session.invalidate();
 		return "template";
 	}

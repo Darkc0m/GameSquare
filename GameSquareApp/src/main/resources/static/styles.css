@@ -4,15 +4,25 @@ h1{
   	font-size: 25px;
   	display: inline;
 }
-nav{
-  	height: 60px;
+nav.head{
+  	height: 10%;
   	width: 100%;
   	background-color: #323232;  	
   	border: solid 1px #888;
   	border-radius: 10px;
   	box-shadow: 0px 2px red;  	
-  	margin: 0px;
-  	padding: 0px;
+  	margin: 0%;
+  	padding: 0%;
+}
+nav.dialog{
+	height: 100%;
+  	width: 100%;
+  	background-color: #323232;  	
+  	border: solid 1px #888;
+  	box-shadow: 0px 2px red;  	
+  	border-radius: 5px;
+  	margin: 0%;
+  	padding: 0%;
 }
 body{
   	font-family: arial;
@@ -28,16 +38,16 @@ a:hover{
 .top_bar{
   	color: white;
   	display: inline;
-  	font-size: 25px;
+  	font-size: 180%;
   	position: relative;
   	margin-left: 2%;
 }
 .space_top{
-  	left: 40px;
+  	left: 10%;
   	margin-top: 15px;
 }
 .right{
-  	left: 100px;
+  	left: 30%;
   	position: inline;
 }
 .searchbox{
@@ -60,7 +70,7 @@ a:hover{
   	margin: 0 auto;
   	vertical-align:middle;
 }
-div.container form{
+div.container form, div.centered{
     position: absolute;
     top: 50%;
     left: 50%;
