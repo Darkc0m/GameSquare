@@ -18,13 +18,13 @@
 <a class="button" href="/publish/game">Publish a new game</a>
 <p>Published games:
 {{#games}}
-<a href="/games/{{id}}">{{name}}, </a>
+<a href="/games/{{id}}?pageComments=0&pageMods=0">{{name}}, </a>
 {{/games}}
 </div>
 <a class="button" href="/publish/mod">Publish a new mod</a>
 <p>Published mods:
 {{#mods}}
-<a href="/mods/{{id}}">{{name}}, </a>
+<a href="/mods/{{id}}?page=0">{{name}}, </a>
 {{/mods}}
 </div>
 </body>

@@ -2,8 +2,10 @@ package es.GameSquare.GameSquareApp;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="`mod`")
 public class Mod extends Software{
 	
 	//Attributes
