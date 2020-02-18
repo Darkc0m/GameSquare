@@ -3,20 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Modify Profile</title>
+<link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
 <body>
-<form action="modified" method="post">
+<div class="container">
+<form action="modified" method="post"">
 <fieldset>
 	<legend>Modify your profile:</legend>
-	Username:
+	<div>Username:</div>
 	<input type="text" name="username" required="required" value={{user.userName}}><br>
-	Password:
+	<div>Password:</div>
 	<input type="password" name="password" required="required" value={{user.password}}><br>
-	Email:
+	<div>Email:</div>
 	<input type="text" name="email" required="required" value={{user.email}}><br>
 	<input type="submit" value="Modify">
 </fieldset>
 </form>
+</div>
 
 
 </body>

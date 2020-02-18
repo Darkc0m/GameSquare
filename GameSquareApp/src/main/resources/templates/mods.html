@@ -2,22 +2,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>{{mod.name}}</title>
-<style>
-	#page{text-align:center}
-</style>
+	<title>{{mod.name}}</title>
+	<link rel="stylesheet" type="text/css" href="/styles.css" />  
 </head>
 <body>
-	
-	<h1>{{mod.name}}</h1>
-	<h2>A mod by {{mod.developer}} for the game {{mod.videogame.name}}</h2>
+	{{>header}}
+	<div style="margin-left:2.5%">
+	<h1 style="margin-left:2.5%; font-size:55px">{{mod.name}}</h1>
+	<h1>A mod by {{mod.developer}} for the game {{mod.videogame.name}}</h1>
 	<p>{{mod.description}}</p>
 	{{#isLogged}}
+		<h2>Send Comment:</h2>
 	<form action="sent_comment/{{mod.id}}" method="post">
-		<textarea name='body' rows=5 cols=40 template="Write your comment here..."></textarea>
-		<input type='submit' value='Enviar'/>
+		<div style="width:20%;height=40%">
+		<textarea name='body' rows=5 cols=40 style="width:99%;height:30%" maxlength="140" required="required" template="Write your comment here..."></textarea>
+		<input type='submit' class="comments" value='Send'/>
+		</div>
 	</form>
 	{{/isLogged}}
+
+	<h2>Comments:</h2>
+
 	{{#comments}}
 	<h4>Por {{author}} a las {{pubDate}}</h4>
 	<p>{{body}}</p>
@@ -27,7 +32,7 @@
 		{{#first_comment_page}}<a href={{previousPage}}>«Newer </a>{{/first_comment_page}}
 		{{#last_comment_page}}<a href={{nextPage}}> Older»</a>{{/last_comment_page}}
 	<p>
-	
+	</div>
 
 </body>
 </html>

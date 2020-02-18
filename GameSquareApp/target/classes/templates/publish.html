@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
 <body>
+<div class="centered">
 {{#isGame}}
 <form action="/publish/p_game" method="post">
 <fieldset>
 	<legend>Publish game:</legend>
-	Name:
+	<div>Name:</div>
 	  <input type="text" name="name" placeholder="Name" required="required"><br>
-	  Genre:
+	  <div>Genre:</div>
 	  <input type="text" name="genre" placeholder="Genre" required="required"><br>
-	  Description:
+	  <div>Description:</div>
 	  <textarea name="description" placeholder="Description"></textarea><br>
-	  <input type="submit" value="Publish">
+	  <input type="submit" class="forms" value="Publish">
 	</fieldset>
 </form>
 {{/isGame}}
@@ -23,18 +25,22 @@
 <form action="/publish/p_mod" method="post">
 <fieldset>
 	<legend>Publish mod:</legend>
-	Name:
+	<div>Name:</div>
 	  <input type="text" name="name" placeholder="Name" required="required"><br>
-	  Genre:
+	 <div>Genre:</div>
 	  <input type="text" name="genre" placeholder="Genre" required="required"><br>
-	  For the game:
+	  <div>For the game:</div>
 	  <input type="text" name="game" placeholder="Game"><br>
-	  Description:
+	  <div>Description:</div>
 	  <textarea name="description" placeholder="Description"></textarea><br>
-	  <input type="submit" value="Publish"><br>
+	  <div style="diplay:inline-block">
+	  <input type="submit" class="forms" value="Publish"><br>
+	  </div>
+
 	</fieldset>
 </form>
 {{/isMod}}
-<a class="button" href="/profile">Cancel</a><br>
+
+</div>
 </body>
 </html>

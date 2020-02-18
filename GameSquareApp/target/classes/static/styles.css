@@ -4,6 +4,11 @@ h1.title{
   	font-size: 25px;
   	display: inline;
 }
+h2.title{
+	text-align: left;
+  	margin-left: 3.5%;
+  	font-size: 35px;
+}
 nav.head{
   	height: 10%;
   	width: 100%;
@@ -93,13 +98,19 @@ div.container form, div.centered{
     margin-right: -50%;
     transform: translate(-50%, -50%) 
 }
-form input[type=submit]{
+form input[type=submit].forms{
 	width: 60%;
   	height: 60%;
   	margin: 10%;
   	position: relative;  	
   	float: right;
   	padding: 5%
+}
+form input[type=submit].comments{
+	width: 100%;
+  	height: 10%;
+  	padding: 1%;
+  	display: block;
 }
 button, input[type=submit]{
 	border: none;

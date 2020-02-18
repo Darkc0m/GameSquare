@@ -235,7 +235,15 @@ public class AppController {
 		
 
 		Mod mod = new Mod(name, genre, description, username);
-		//Falta asociar el juego para el que es
+		
+		Videogame vg = VideogamesRpo.findByName(game);
+		
+		if(vg == null) {
+			model.addAttribute("message", "The game wasn't found. Please try again.");
+			model.addAttribute("link", "/publish/mod");
+			return "template";
+		}
+		
 		mod.setVideogame(VideogamesRpo.findByName(game));
 		
 		ModsRpo.save(mod);
@@ -312,6 +320,7 @@ public class AppController {
 	
 	@GetMapping("/mods/{mod_id}")
 	public String mod(HttpSession session, Model model, @PathVariable String mod_id, @RequestParam int page) {
+		session_params(model, session);
 		
 		Mod mod = ModsRpo.getOne(Long.parseLong(mod_id));
 		Page<Comment> comments = CommentsRpo.findByOwnerOrderByPubDateDesc(mod.getName(), new PageRequest(page,5));
