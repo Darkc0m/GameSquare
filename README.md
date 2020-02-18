@@ -27,16 +27,45 @@ En ella participan tanto los desarrolladores de los videojuegos originales, como
 
 ## Capturas de las patallas de la web
 ![image](screenshots/main.png)
+Pantalla de inicio. Permite rigistrarse o logearse, hacer una búsqueda, consultar los últimos juegos y mods además de acceder a la lista completa de cada uno de ellos
+
+
+
 ![image](screenshots/login.png)
+Pantalla de login. Permite acceder a una cuenta que esté en la base de datos
+
+
+
 ![image](screenshots/register.png)
+Pantalla de registro. Permite crear una nueva cuenta en la base de datos
+
+
+
 ![image](screenshots/profile.png)
+Pantalla de perfil personal. Permite consultar los datos del perfil, acceder a la pantalla de modificación de perfil y publicar tanto juegos como mods y acceder a ellos
+
+
+
 ![image](screenshots/modify_profile.png)
+Pantalla de modificación de datos del perfil. Permite modificar informoación personal del perfil
+
+
+
 ![image](screenshots/search.png)
+Pantalla de búsqueda. Muestra los resultados introducidos en la barra de búsqueda
+
+
+
 ![image](screenshots/mod.png)
+Pantalla de datos y comentarios de un mod. Muestra todos los datos relacionados con el mod en cuestión y hacer comentarios si el usuario está logeado en la página.
+
+
+
 ![image](screenshots/game.png)
+Pantalla de datos, mods y comentarios de un juego. Muestra todos los datos relacionados con el mod en cuestión junto con una lista con sus mods y hacer comentarios si el usuario está logeado en la página.
 
 ## Integrantes
 
 + Alejandro	Hernández Pérez -> a.hernandezp.2016@alumnos.urjc.es , Darkc0m
-+ Mario	Márquez Balduque -> m.marquezb.2016@alumnos.urc.es , Rinkashiki
++ Mario	Márquez Balduque -> m.marquezb.2016@alumnos.urjc.es , Rinkashiki
 + Javier Bravo Bolívar ->	j.bravo.2016@alumnos.urjc.es , javierb1984
