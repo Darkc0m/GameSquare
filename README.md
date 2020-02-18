@@ -25,6 +25,15 @@ En ella participan tanto los desarrolladores de los videojuegos originales, como
 
 ![image](esquema_plantillas_DAD.jpg)
 
+## Capturas de las patallas de la web
+![image](screenshots/main.png)
+![image](screenshots/login.png)
+![image](screenshots/register.png)
+![image](screenshots/profile.png)
+![image](screenshots/modify_profile.png)
+![image](screenshots/search.png)
+![image](screenshots/mod.png)
+![image](screenshots/game.png)
 
 ## Integrantes
 
