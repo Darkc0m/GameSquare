@@ -41,58 +41,9 @@ public class AppController {
 	@Autowired
 	private CommentsRepository CommentsRpo;
 	
-	@GetMapping("/login")
-	public String login(Model model) {
-		model.addAttribute("link", "/login");
-		model.addAttribute("action", "Login");
-		return "session";
-	}
 	
-	@PostMapping("/login")
-	public String sumbit(HttpSession session, Model model, @RequestParam String username, @RequestParam String password) {
-		User u = UsersRpo.findByUserName(username);
-		
-		String message = "Incorrect username or password.";
-		if(u == null) {
-			
-		}			
-		else if(u.getUserName().equals(username) && u.getPassword().equals(password)) {
-			message = "Succesfully logged as "+username;
-				session.setAttribute("username", username);
-				session.setAttribute("password", password);		
-		}
-
-		model.addAttribute("message", message);
-		model.addAttribute("link", "/");
-		return "template";
-	}
 	
-	@GetMapping("/register")
-	public String register(Model model) {
-		
-		model.addAttribute("action", "Register");
-		model.addAttribute("link", "/register");		
-		return "session";
-	}
 	
-	@PostMapping("/register")
-	public String register_sumbit(HttpSession session, Model model, @RequestParam String username, @RequestParam String password) {
-		User existing_user = UsersRpo.findByUserName(username);
-		
-		String message = "User succesfully registered!";
-		
-		if(existing_user == null) {
-			User u = new User(username, password);
-			UsersRpo.save(u);
-		}
-		else {
-			message = "The username already exists. Try again.";
-		}
-
-		model.addAttribute("message", message);
-		model.addAttribute("link", "/");
-		return "template";
-	}
 	
 	
 	@GetMapping("/")
@@ -292,25 +243,30 @@ public class AppController {
 	
 	@PostMapping("/{software}/sent_comment/{software_id}")
 	public String game_comment(HttpSession session, Model model, @PathVariable String software, @PathVariable String software_id, String body) {
+		User self = UsersRpo.findByUserName(session.getAttribute("username").toString());
 		switch(software) {
 			case "games":
 				Videogame videogame = VideogamesRpo.getOne(Long.parseLong(software_id));
-				Comment comment_game = new Comment(session.getAttribute("username").toString(),body, videogame.getName());
+				Comment comment_game = new Comment(self.getUserName(),body, videogame.getName());
 				CommentsRpo.save(comment_game);
 				videogame.getComments().add(comment_game);
+				self.addToCommentList(comment_game);
 				model.addAttribute("link", "/games/"+videogame.getId()+"?pageComments=0&pageMods=0");
 				model.addAttribute("message", "Successfully sent the comment!");
 				VideogamesRpo.save(videogame);
-				
+				UsersRpo.save(self);
 				break;
+				
 			case "mods":
 				Mod mod = ModsRpo.getOne(Long.parseLong(software_id));
-				Comment comment_mod = new Comment(session.getAttribute("username").toString(),body, mod.getName());
+				Comment comment_mod = new Comment(self.getUserName(),body, mod.getName());
 				CommentsRpo.save(comment_mod);
 				mod.getComments().add(comment_mod);
+				self.addToCommentList(comment_mod);
 				model.addAttribute("link", "/mods/"+mod.getId()+"?page=0");
 				model.addAttribute("message", "Successfully sent the comment!");
 				ModsRpo.save(mod);
+				UsersRpo.save(self);
 				break;
 		}
 		
@@ -392,14 +348,6 @@ public class AppController {
 		return "search_list";
 	}
 	
-	
-	@GetMapping("/logout")
-	public String logout(HttpSession session, Model model) {
-		model.addAttribute("message", "Successfully logged out!");
-		model.addAttribute("link", "/");
-		session.invalidate();
-		return "template";
-	}
 	
 	//Setting up session and top bar on each url
 	private void session_params(Model model, HttpSession session) {
