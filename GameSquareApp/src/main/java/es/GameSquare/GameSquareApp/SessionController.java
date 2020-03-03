@@ -75,5 +75,12 @@ public class SessionController {
 		session.invalidate();
 		return "template";
 	}
+	
+	@GetMapping("/loginerror")
+	public String loginerror(HttpSession session, Model model) {
+		model.addAttribute("message", "Incorrect username or password.");
+		model.addAttribute("link", "/");
+		return "template";
+	}
 
 }
