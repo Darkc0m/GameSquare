@@ -15,6 +15,7 @@
 				<input type="hidden" name="game_page" value="0" />
 				<input type="hidden" name="mod_page" value="0" />
 				<button type="submit" class="forms">Submit</button>
+				<input type="hidden" name='_csrf' value={{token}}/>
 			</form>
 			<a class="top_bar" href = {{user_mapping}}>{{username}}</a>
 			<a class="top_bar" href = "{{rl_link}}">{{rl}}</a>	

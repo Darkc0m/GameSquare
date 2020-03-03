@@ -34,6 +34,7 @@
 	<form action="sent_comment/{{vg.id}}" method="post">
 		<textarea name='body' rows=5 cols=40 placeholder="Write your comment here..."></textarea>
 		<input type='submit' value='Enviar'/>
+		<input type="hidden" name='_csrf' value={{token}}/>
 	</form>
 	{{/isLogged}}
 	{{#comments}}
