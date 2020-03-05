@@ -22,6 +22,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		 http.authorizeRequests().antMatchers("/games/{game_id}").permitAll();
 		 http.authorizeRequests().antMatchers("/mods/{mod_id}").permitAll();
 		 http.authorizeRequests().antMatchers("/search{name}{game_page}{mod_page}").permitAll();
+		 
+		 // Css
+		 http.authorizeRequests().antMatchers("/styles.css").permitAll();
 
 		 //Private Pages
 		http.authorizeRequests().antMatchers("/profile").hasAnyRole("USER");
