@@ -1,8 +1,12 @@
 package es.GameSquare.GameSquareApp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +18,8 @@ public class SessionController {
 	
 	@Autowired
 	private UsersRepository UsersRpo;
+	
+	private String defaultRole = "USER";
 	
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -56,7 +62,8 @@ public class SessionController {
 		String message = "User succesfully registered!";
 		
 		if(existing_user == null) {
-			User u = new User(username, password);
+			User u = new User(username, new BCryptPasswordEncoder().encode(password));
+			u.addRole(defaultRole);
 			UsersRpo.save(u);
 		}
 		else {
@@ -76,7 +83,7 @@ public class SessionController {
 		return "template";
 	}
 	
-	@GetMapping("/loginerror")
+	@GetMapping("/login?error")
 	public String loginerror(HttpSession session, Model model) {
 		model.addAttribute("message", "Incorrect username or password.");
 		model.addAttribute("link", "/");

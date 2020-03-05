@@ -11,7 +11,9 @@ import java.util.Date;
 //import java.util.Date;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,6 +37,9 @@ public class User {
 	protected String regDate;
 	protected String email = "email";
 	
+	@ElementCollection(fetch = FetchType.EAGER)
+	protected List<String> roles;
+
 	@OneToMany
 	protected List<Comment> comments;
 	@OneToOne
@@ -54,7 +59,8 @@ public class User {
 		this.userName = userName;
 		this.password = password;
 		this.regDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-		this.comments = new ArrayList<>();	
+		this.comments = new ArrayList<>();		
+		this.roles = new ArrayList<>();
 	}
 	
 	public User() {
@@ -116,6 +122,18 @@ public class User {
 
 	public long getId() {
 		return id;
+	}
+	
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+	
+	public void addRole(String role) {
+		this.roles.add(role);
 	}
 	
 

@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
+	@Autowired
+	public UserRepositoryAuthenticationProvider authenticationProvider;
+	
 	@Override
 	 protected void configure(HttpSecurity http) throws Exception {
 		
@@ -28,38 +31,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		 //Private Pages
 		http.authorizeRequests().antMatchers("/profile").hasAnyRole("USER");
-		http.authorizeRequests().antMatchers("/publish").hasAnyRole("ADMIN");
+		http.authorizeRequests().antMatchers("/publish").hasAnyRole("USER");
 
 		 //Private pages
 		 http.authorizeRequests().anyRequest().authenticated();
 		 
-		// Login form
-		 http.formLogin().loginPage("/login");
-		 http.formLogin().usernameParameter("username");
-		 http.formLogin().passwordParameter("password");
+		 http.formLogin().loginProcessingUrl("/login");
 		 http.formLogin().defaultSuccessUrl("/");
-		 http.formLogin().failureUrl("/loginerror");
+		 
+		 // Everything else
+		 http.authorizeRequests().anyRequest().permitAll();
 		 
 		// Logout
 		 http.logout().logoutUrl("/logout");
 		 http.logout().logoutSuccessUrl("/");
-
-
 		 
 		// Disable CSRF at the moment
 		 http.csrf().disable();
-
 	}
-	@Autowired
-	UsersRepository UserRPO;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		 auth.inMemoryAuthentication().withUser("user").password("pass")
-		 .roles("USER");
-
-		 auth.inMemoryAuthentication().withUser("admin").password("adminpass")
-		 .roles("USER", "ADMIN");		
+		auth.authenticationProvider(authenticationProvider);
 	}
 	
 }
