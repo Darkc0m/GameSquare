@@ -19,7 +19,7 @@ public class SessionController {
 	@Autowired
 	private UsersRepository UsersRpo;
 	
-	private String defaultRole = "USER";
+	private String defaultRole = "ROLE_USER";
 	
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -31,15 +31,16 @@ public class SessionController {
 	@PostMapping("/login")
 	public String sumbit(HttpSession session, Model model, @RequestParam String username, @RequestParam String password) {
 		User u = UsersRpo.findByUserName(username);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		String message = "Incorrect username or password.";
 		if(u == null) {
 			
 		}			
-		else if(u.getUserName().equals(username) && u.getPassword().equals(password)) {
+		else if(u.getUserName().equals(username) && encoder.matches(password, u.getPassword())) {
 			message = "Succesfully logged as "+username;
 				session.setAttribute("username", username);
-				session.setAttribute("password", password);		
+				session.setAttribute("password", u.getPassword());		
 		}
 
 		model.addAttribute("message", message);

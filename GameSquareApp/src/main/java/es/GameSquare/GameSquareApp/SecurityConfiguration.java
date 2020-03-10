@@ -36,8 +36,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		 //Private pages
 		 http.authorizeRequests().anyRequest().authenticated();
 		 
-		 http.formLogin().loginProcessingUrl("/login");
-		 http.formLogin().defaultSuccessUrl("/");
+		 //http.formLogin().loginProcessingUrl("/login");
+		 //http.formLogin().defaultSuccessUrl("/");
 		 
 		 // Everything else
 		 http.authorizeRequests().anyRequest().permitAll();
