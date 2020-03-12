@@ -1,8 +1,12 @@
 package es.GameSquare.GameSquareApp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,8 @@ public class SessionController {
 	@Autowired
 	private UsersRepository UsersRpo;
 	
+	private String defaultRole = "ROLE_USER";
+	
 	@GetMapping("/login")
 	public String login(Model model) {
 		model.addAttribute("link", "/login");
@@ -25,15 +31,16 @@ public class SessionController {
 	@PostMapping("/login")
 	public String sumbit(HttpSession session, Model model, @RequestParam String username, @RequestParam String password) {
 		User u = UsersRpo.findByUserName(username);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		String message = "Incorrect username or password.";
 		if(u == null) {
 			
 		}			
-		else if(u.getUserName().equals(username) && u.getPassword().equals(password)) {
+		else if(u.getUserName().equals(username) && encoder.matches(password, u.getPassword())) {
 			message = "Succesfully logged as "+username;
 				session.setAttribute("username", username);
-				session.setAttribute("password", password);		
+				session.setAttribute("password", u.getPassword());		
 		}
 
 		model.addAttribute("message", message);
@@ -56,7 +63,8 @@ public class SessionController {
 		String message = "User succesfully registered!";
 		
 		if(existing_user == null) {
-			User u = new User(username, password);
+			User u = new User(username, new BCryptPasswordEncoder().encode(password));
+			u.addRole(defaultRole);
 			UsersRpo.save(u);
 		}
 		else {
@@ -73,6 +81,13 @@ public class SessionController {
 		model.addAttribute("message", "Successfully logged out!");
 		model.addAttribute("link", "/");
 		session.invalidate();
+		return "template";
+	}
+	
+	@GetMapping("/login?error")
+	public String loginerror(HttpSession session, Model model) {
+		model.addAttribute("message", "Incorrect username or password.");
+		model.addAttribute("link", "/");
 		return "template";
 	}
 
