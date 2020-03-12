@@ -33,20 +33,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		 //Private Pages
 		http.authorizeRequests().antMatchers("/profile").hasAnyRole("USER");
+		http.authorizeRequests().antMatchers("/profile/modify").hasAnyRole("USER");
+		http.authorizeRequests().antMatchers("/profile/modified").hasAnyRole("USER");
 		http.authorizeRequests().antMatchers("/publish").hasAnyRole("USER");
 
 		 //Private pages
 		 http.authorizeRequests().anyRequest().authenticated();
 		 
 		 // Login - logout
-		 http.formLogin().loginPage("/login");
+		 //http.formLogin().loginPage("/login");
+		 http.formLogin().loginProcessingUrl("/login");
 		 http.formLogin().defaultSuccessUrl("/");
 		 
 		 http.logout().logoutUrl("/logout");
 		 http.logout().logoutSuccessUrl("/");
 		 
-		// Disable CSRF at the moment
-		 http.csrf().disable();
 	}
 	
 	@Override

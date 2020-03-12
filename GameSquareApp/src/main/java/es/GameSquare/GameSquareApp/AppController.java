@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,14 +62,14 @@ public class AppController {
 	}
 	
 	@GetMapping("/profile/modify")
-	public String modifyProfile(HttpSession session, Model model) {
-		model.addAttribute("user", UsersRpo.findByUserName(session.getAttribute("username").toString()));
+	public String modifyProfile(Principal principal, Model model) {
+		model.addAttribute("user", UsersRpo.findByUserName(principal.getName()));
 		return "modify_profile";
 	}
 	
 	@PostMapping("/profile/modified")
-	public String modifiedProfile(HttpSession session, Model model, @RequestParam String username, @RequestParam String password, @RequestParam String email) {
-		String previous_username = session.getAttribute("username").toString();
+	public String modifiedProfile(Principal principal, Model model, @RequestParam String username, @RequestParam String password, @RequestParam String email) {
+		String previous_username = principal.getName();
 		User user = UsersRpo.findByUserName(previous_username);
 		
 		user.setUserName(username);
@@ -110,9 +109,6 @@ public class AppController {
 				modder.setGames(m_new);
 			}
 		}
-		
-		session.setAttribute("username", username);
-		session.setAttribute("password", password);
 		
 		model.addAttribute("message","Profile modified successfully!");
 		model.addAttribute("link", "/profile");
@@ -155,9 +151,9 @@ public class AppController {
 	}
 	
 	@PostMapping("/publish/p_game")
-	public String publish_game(HttpSession session, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description) {
+	public String publish_game(Principal principal, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description) {
 		
-		String username = session.getAttribute("username").toString();
+		String username = principal.getName();
 		
 		Videogame vg = new Videogame(name, genre, description, username);
 		VideogamesRpo.save(vg);
@@ -182,9 +178,9 @@ public class AppController {
 	}
 	
 	@PostMapping("/publish/p_mod")
-	public String publish_mod(HttpSession session, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description, @RequestParam String game) {
+	public String publish_mod(Principal principal, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description, @RequestParam String game) {
 		
-		String username = session.getAttribute("username").toString();
+		String username = principal.getName();
 		
 
 		Mod mod = new Mod(name, genre, description, username);
@@ -221,7 +217,7 @@ public class AppController {
 	}
 	
 	@GetMapping("/games/{game_id}")
-	public String game(HttpSession session, Model model, @PathVariable String game_id, @RequestParam int pageComments, @RequestParam int pageMods) {
+	public String game(Principal principal, Model model, @PathVariable String game_id, @RequestParam int pageComments, @RequestParam int pageMods) {
 		
 		Videogame videogame = VideogamesRpo.getOne(Long.parseLong(game_id));
 		Page<Comment> comments = CommentsRpo.findByOwnerOrderByPubDateDesc(videogame.getName(), new PageRequest(pageComments,5));
@@ -233,7 +229,7 @@ public class AppController {
 		model.addAttribute("previousPageComments", game_id + "?pageComments=" + (pageComments - 1) + "&pageMods=" + pageMods);
 		model.addAttribute("nextPageMods", game_id + "?pageComments=" + pageComments + "&pageMods=" + (pageMods + 1));
 		model.addAttribute("previousPageMods", game_id + "?pageComments=" + pageComments + "&pageMods=" + (pageMods - 1));
-		model.addAttribute("isLogged", session.getAttribute("username") != null);
+		model.addAttribute("isLogged", principal.getName() != null);
 		
 		model.addAttribute("first_comment_page", !comments.isFirst());
 		model.addAttribute("last_comment_page", !comments.isLast());
@@ -244,8 +240,8 @@ public class AppController {
 	}
 	
 	@PostMapping("/{software}/sent_comment/{software_id}")
-	public String game_comment(HttpSession session, Model model, @PathVariable String software, @PathVariable String software_id, String body) {
-		User self = UsersRpo.findByUserName(session.getAttribute("username").toString());
+	public String game_comment(Principal principal, Model model, @PathVariable String software, @PathVariable String software_id, String body) {
+		User self = UsersRpo.findByUserName(principal.getName());
 		switch(software) {
 			case "games":
 				Videogame videogame = VideogamesRpo.getOne(Long.parseLong(software_id));

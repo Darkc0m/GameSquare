@@ -28,26 +28,6 @@ public class SessionController {
 		return "session";
 	}
 	
-	@PostMapping("/login")
-	public String sumbit(HttpSession session, Model model, @RequestParam String username, @RequestParam String password) {
-		User u = UsersRpo.findByUserName(username);
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		
-		String message = "Incorrect username or password.";
-		if(u == null) {
-			
-		}			
-		else if(u.getUserName().equals(username) && encoder.matches(password, u.getPassword())) {
-			message = "Succesfully logged as "+username;
-				session.setAttribute("username", username);
-				session.setAttribute("password", u.getPassword());		
-		}
-
-		model.addAttribute("message", message);
-		model.addAttribute("link", "/");
-		return "template";
-	}
-	
 	@GetMapping("/register")
 	public String register(Model model) {
 		
@@ -85,7 +65,7 @@ public class SessionController {
 	}
 	
 	@GetMapping("/login?error")
-	public String loginerror(HttpSession session, Model model) {
+	public String loginerror(Model model) {
 		model.addAttribute("message", "Incorrect username or password.");
 		model.addAttribute("link", "/");
 		return "template";
