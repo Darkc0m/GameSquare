@@ -1,6 +1,8 @@
 package es.GameSquare.GameSquareApp;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -47,9 +49,9 @@ public class AppController {
 	
 	
 	@GetMapping("/")
-	public String index(Model model, HttpSession session) {
+	public String index(Model model, Principal principal) {
 		
-		session_params(model, session);
+		session_params(model, principal);
 		
 		List<Videogame> games = VideogamesRpo.findFirst10ByOrderByPubDateDesc();	
 		
@@ -118,9 +120,9 @@ public class AppController {
 	}
 	
 	@GetMapping("/profile")
-	public String profile(HttpSession session, Model model) {
-		session_params(model, session);
-		User user = UsersRpo.findByUserName(session.getAttribute("username").toString());
+	public String profile(Principal principal, Model model) {
+		session_params(model, principal);
+		User user = UsersRpo.findByUserName(principal.getName());
 		
 		if(user == null) {
 			model.addAttribute("message", "User not found.");
@@ -275,8 +277,8 @@ public class AppController {
 	}
 	
 	@GetMapping("/mods/{mod_id}")
-	public String mod(HttpSession session, Model model, @PathVariable String mod_id, @RequestParam int page) {
-		session_params(model, session);
+	public String mod(Principal principal, Model model, @PathVariable String mod_id, @RequestParam int page) {
+		session_params(model, principal);
 		
 		Mod mod = ModsRpo.getOne(Long.parseLong(mod_id));
 		Page<Comment> comments = CommentsRpo.findByOwnerOrderByPubDateDesc(mod.getName(), new PageRequest(page,5));
@@ -286,14 +288,14 @@ public class AppController {
 		model.addAttribute("previousPage", mod_id + "?page=" + (page - 1));
 		model.addAttribute("first_comment_page", !comments.isFirst());
 		model.addAttribute("last_comment_page", !comments.isLast());
-		model.addAttribute("isLogged", session.getAttribute("username") != null);
+		model.addAttribute("isLogged", principal != null);
 		
 		return "mods";
 	}
 	
 	@GetMapping("/all_games{page}")
-	public String games_list_next(HttpSession session, Model model, @RequestParam int page) {
-		session_params(model, session);
+	public String games_list_next(Principal principal, Model model, @RequestParam int page) {
+		session_params(model, principal);
 		Page<Videogame> games = VideogamesRpo.findAllByOrderByPubDateDesc(new PageRequest(page,10));
 		model.addAttribute("games", games);
 		model.addAttribute("nextPage", "?page=" + (page + 1));
@@ -304,8 +306,8 @@ public class AppController {
 	}
 	
 	@GetMapping("/all_mods{page}")
-	public String mods_list(HttpSession session, Model model, @RequestParam int page) {
-		session_params(model, session);
+	public String mods_list(Principal principal, Model model, @RequestParam int page) {
+		session_params(model, principal);
 		
 		Page<Mod> mods = ModsRpo.findAllByOrderByPubDateDesc(new PageRequest(page,10));
 		model.addAttribute("mods", mods);
@@ -317,8 +319,8 @@ public class AppController {
 	}
 	
 	@GetMapping("/search{name}{game_page}{mod_page}")
-	public String search(Model model, HttpSession session, @RequestParam String name, @RequestParam int game_page, @RequestParam int mod_page) {		
-		session_params(model, session);
+	public String search(Model model, Principal principal, @RequestParam String name, @RequestParam int game_page, @RequestParam int mod_page) {		
+		session_params(model, principal);
 		
 		Page<Videogame> games_by_name = VideogamesRpo.findByNameContainingIgnoreCaseOrderByPubDateDesc(name, new PageRequest(game_page, 10));
 		Page<Mod> mods_by_name = ModsRpo.findByNameContainingIgnoreCaseOrderByPubDateDesc(name, new PageRequest(mod_page, 10));
@@ -350,15 +352,16 @@ public class AppController {
 	
 	
 	//Setting up session and top bar on each url
-	private void session_params(Model model, HttpSession session) {
+	private void session_params(Model model, Principal principal) {
 		String username = "Login";
 		String user_mapping = "/login";
 		String register_logout = "Register";
 		String rl_link = "/register"; 
 		
 		// Logged
-		if(session.getAttribute("username") != null) {
-			username = session.getAttribute("username").toString();
+		if(principal != null) {
+			username = principal.getName();
+			
 			user_mapping = "/profile";
 			register_logout = "Logout";
 			rl_link = "/logout";
