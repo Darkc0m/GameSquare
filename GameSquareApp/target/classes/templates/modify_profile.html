@@ -17,6 +17,7 @@
 	<div>Email:</div>
 	<input type="text" name="email" required="required" value={{user.email}}><br>
 	<input type="submit" value="Modify">
+	<input type="hidden" name='_csrf' value={{token}}/>
 </fieldset>
 </form>
 </div>
