@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 //import java.text.DateFormat;
 //import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 //import java.util.Calendar;
@@ -55,12 +56,12 @@ public class User {
 	
 	
 	//Constructors
-	public User(String userName, String password) {
+	public User(String userName, String password, String... roles) {
 		this.userName = userName;
 		this.password = password;
 		this.regDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 		this.comments = new ArrayList<>();		
-		this.roles = new ArrayList<>();
+		this.roles = new ArrayList<>(Arrays.asList(roles));
 	}
 	
 	public User() {

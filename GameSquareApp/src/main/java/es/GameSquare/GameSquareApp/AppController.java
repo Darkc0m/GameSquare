@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,9 +50,9 @@ public class AppController {
 	
 	
 	@GetMapping("/")
-	public String index(Model model, Principal principal) {
+	public String index(Model model, HttpServletRequest request) {
 		
-		session_params(model, principal);
+		session_params(model, request);
 		
 		List<Videogame> games = VideogamesRpo.findFirst10ByOrderByPubDateDesc();	
 		
@@ -62,14 +64,14 @@ public class AppController {
 	}
 	
 	@GetMapping("/profile/modify")
-	public String modifyProfile(Principal principal, Model model) {
+	public String modifyProfile(Principal principal, Model model, HttpServletRequest request) {
 		model.addAttribute("user", UsersRpo.findByUserName(principal.getName()));
 		return "modify_profile";
 	}
 	
 	@PostMapping("/profile/modified")
-	public String modifiedProfile(Principal principal, Model model, @RequestParam String username, @RequestParam String password, @RequestParam String email) {
-		String previous_username = principal.getName();
+	public String modifiedProfile(HttpServletRequest request, Model model, @RequestParam String username, @RequestParam String password, @RequestParam String email) {
+		String previous_username = request.getUserPrincipal().getName();
 		User user = UsersRpo.findByUserName(previous_username);
 		
 		user.setUserName(username);
@@ -116,9 +118,9 @@ public class AppController {
 	}
 	
 	@GetMapping("/profile")
-	public String profile(Principal principal, Model model) {
-		session_params(model, principal);
-		User user = UsersRpo.findByUserName(principal.getName());
+	public String profile(HttpServletRequest request, Model model) {
+		session_params(model, request);
+		User user = UsersRpo.findByUserName(request.getUserPrincipal().getName());
 		
 		if(user == null) {
 			model.addAttribute("message", "User not found.");
@@ -134,7 +136,7 @@ public class AppController {
 	}
 	
 	@GetMapping("/publish/{software}")
-	public String publish(Model model, @PathVariable String software) {
+	public String publish(Model model, @PathVariable String software, HttpServletRequest request) {
 		boolean isMod = false;
 		boolean isGame = false;
 		switch(software) {
@@ -151,9 +153,8 @@ public class AppController {
 	}
 	
 	@PostMapping("/publish/p_game")
-	public String publish_game(Principal principal, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description) {
-		
-		String username = principal.getName();
+	public String publish_game(HttpServletRequest request, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description) {
+		String username = request.getUserPrincipal().getName();
 		
 		Videogame vg = new Videogame(name, genre, description, username);
 		VideogamesRpo.save(vg);
@@ -178,9 +179,8 @@ public class AppController {
 	}
 	
 	@PostMapping("/publish/p_mod")
-	public String publish_mod(Principal principal, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description, @RequestParam String game) {
-		
-		String username = principal.getName();
+	public String publish_mod(HttpServletRequest request, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description, @RequestParam String game) {
+		String username = request.getUserPrincipal().getName();
 		
 
 		Mod mod = new Mod(name, genre, description, username);
@@ -217,7 +217,7 @@ public class AppController {
 	}
 	
 	@GetMapping("/games/{game_id}")
-	public String game(Principal principal, Model model, @PathVariable String game_id, @RequestParam int pageComments, @RequestParam int pageMods) {
+	public String game(HttpServletRequest request, Model model, @PathVariable String game_id, @RequestParam int pageComments, @RequestParam int pageMods) {
 		
 		Videogame videogame = VideogamesRpo.getOne(Long.parseLong(game_id));
 		Page<Comment> comments = CommentsRpo.findByOwnerOrderByPubDateDesc(videogame.getName(), new PageRequest(pageComments,5));
@@ -229,7 +229,7 @@ public class AppController {
 		model.addAttribute("previousPageComments", game_id + "?pageComments=" + (pageComments - 1) + "&pageMods=" + pageMods);
 		model.addAttribute("nextPageMods", game_id + "?pageComments=" + pageComments + "&pageMods=" + (pageMods + 1));
 		model.addAttribute("previousPageMods", game_id + "?pageComments=" + pageComments + "&pageMods=" + (pageMods - 1));
-		model.addAttribute("isLogged", principal.getName() != null);
+		model.addAttribute("isLogged", request.isUserInRole("USER"));
 		
 		model.addAttribute("first_comment_page", !comments.isFirst());
 		model.addAttribute("last_comment_page", !comments.isLast());
@@ -240,8 +240,8 @@ public class AppController {
 	}
 	
 	@PostMapping("/{software}/sent_comment/{software_id}")
-	public String game_comment(Principal principal, Model model, @PathVariable String software, @PathVariable String software_id, String body) {
-		User self = UsersRpo.findByUserName(principal.getName());
+	public String game_comment(HttpServletRequest request, Model model, @PathVariable String software, @PathVariable String software_id, String body, String _csrf) {
+		User self = UsersRpo.findByUserName(request.getUserPrincipal().getName());
 		switch(software) {
 			case "games":
 				Videogame videogame = VideogamesRpo.getOne(Long.parseLong(software_id));
@@ -268,13 +268,12 @@ public class AppController {
 				break;
 		}
 		
-		
 		return "template";
 	}
 	
 	@GetMapping("/mods/{mod_id}")
-	public String mod(Principal principal, Model model, @PathVariable String mod_id, @RequestParam int page) {
-		session_params(model, principal);
+	public String mod(HttpServletRequest request, Model model, @PathVariable String mod_id, @RequestParam int page) {
+		session_params(model, request);
 		
 		Mod mod = ModsRpo.getOne(Long.parseLong(mod_id));
 		Page<Comment> comments = CommentsRpo.findByOwnerOrderByPubDateDesc(mod.getName(), new PageRequest(page,5));
@@ -284,14 +283,14 @@ public class AppController {
 		model.addAttribute("previousPage", mod_id + "?page=" + (page - 1));
 		model.addAttribute("first_comment_page", !comments.isFirst());
 		model.addAttribute("last_comment_page", !comments.isLast());
-		model.addAttribute("isLogged", principal != null);
+		model.addAttribute("isLogged", request.isUserInRole("USER"));
 		
 		return "mods";
 	}
 	
 	@GetMapping("/all_games{page}")
-	public String games_list_next(Principal principal, Model model, @RequestParam int page) {
-		session_params(model, principal);
+	public String games_list_next(HttpServletRequest request, Model model, @RequestParam int page) {
+		session_params(model, request);
 		Page<Videogame> games = VideogamesRpo.findAllByOrderByPubDateDesc(new PageRequest(page,10));
 		model.addAttribute("games", games);
 		model.addAttribute("nextPage", "?page=" + (page + 1));
@@ -302,8 +301,8 @@ public class AppController {
 	}
 	
 	@GetMapping("/all_mods{page}")
-	public String mods_list(Principal principal, Model model, @RequestParam int page) {
-		session_params(model, principal);
+	public String mods_list(HttpServletRequest request, Model model, @RequestParam int page) {
+		session_params(model, request);
 		
 		Page<Mod> mods = ModsRpo.findAllByOrderByPubDateDesc(new PageRequest(page,10));
 		model.addAttribute("mods", mods);
@@ -315,8 +314,9 @@ public class AppController {
 	}
 	
 	@GetMapping("/search{name}{game_page}{mod_page}")
-	public String search(Model model, Principal principal, @RequestParam String name, @RequestParam int game_page, @RequestParam int mod_page) {		
-		session_params(model, principal);
+	public String search(Model model, HttpServletRequest request, @RequestParam String name, @RequestParam int game_page, @RequestParam int mod_page) {		
+		session_params(model, request);
+		
 		
 		Page<Videogame> games_by_name = VideogamesRpo.findByNameContainingIgnoreCaseOrderByPubDateDesc(name, new PageRequest(game_page, 10));
 		Page<Mod> mods_by_name = ModsRpo.findByNameContainingIgnoreCaseOrderByPubDateDesc(name, new PageRequest(mod_page, 10));
@@ -348,15 +348,15 @@ public class AppController {
 	
 	
 	//Setting up session and top bar on each url
-	private void session_params(Model model, Principal principal) {
+	private void session_params(Model model, HttpServletRequest request) {
 		String username = "Login";
 		String user_mapping = "/login";
 		String register_logout = "Register";
 		String rl_link = "/register"; 
 		
 		// Logged
-		if(principal != null) {
-			username = principal.getName();
+		if(request.isUserInRole("USER")) {
+			username = request.getUserPrincipal().getName();
 			
 			user_mapping = "/profile";
 			register_logout = "Logout";
@@ -368,5 +368,6 @@ public class AppController {
 		model.addAttribute("username", username);
 		model.addAttribute("user_mapping", user_mapping);		
 	}
+	
 }
 	

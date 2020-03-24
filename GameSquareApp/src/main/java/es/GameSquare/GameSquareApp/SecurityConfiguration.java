@@ -24,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		 http.authorizeRequests().antMatchers("/register").permitAll();
 		 http.authorizeRequests().antMatchers("/all_games{page}").permitAll();
 		 http.authorizeRequests().antMatchers("/all_mods{page}").permitAll();
-		 http.authorizeRequests().antMatchers("/games/{game_id}").permitAll();
+		 //http.authorizeRequests().antMatchers("/games/{game_id}").permitAll();
 		 http.authorizeRequests().antMatchers("/mods/{mod_id}").permitAll();
 		 http.authorizeRequests().antMatchers("/search{name}{game_page}{mod_page}").permitAll();
 		 
@@ -36,6 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/profile/modify").hasAnyRole("USER");
 		http.authorizeRequests().antMatchers("/profile/modified").hasAnyRole("USER");
 		http.authorizeRequests().antMatchers("/publish").hasAnyRole("USER");
+		http.authorizeRequests().antMatchers("/{software}/sent_comment/{software_id}").hasAnyRole("USER");
 
 		 //Private pages
 		 http.authorizeRequests().anyRequest().authenticated();
@@ -43,6 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		 // Login - logout
 		 //http.formLogin().loginPage("/login");
 		 http.formLogin().loginProcessingUrl("/login");
+		 http.formLogin().usernameParameter("username");
+		 http.formLogin().passwordParameter("password");
 		 http.formLogin().defaultSuccessUrl("/");
 		 
 		 http.logout().logoutUrl("/logout");
@@ -53,6 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider);
+		
 	}
 	
 }

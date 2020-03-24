@@ -25,8 +25,7 @@ public class BBDDController {
 	@PostConstruct
 	public void init() {
 		
-		User user1 = new User("Alejuandro", new BCryptPasswordEncoder().encode("1"));
-		user1.addRole("ROLE_USER");
+		User user1 = new User("Alejuandro", new BCryptPasswordEncoder().encode("1"), "ROLE_USER");
 		GameDeveloper user2 = new GameDeveloper(user1.getId());
 		ModDeveloper user3 = new ModDeveloper(user1.getId());
 		
