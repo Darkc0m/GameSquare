@@ -17,7 +17,7 @@
 		<div style="width:20%;height=40%">
 		<textarea name='body' rows=5 cols=40 style="width:99%;height:30%" maxlength="140" required="required" template="Write your comment here..."></textarea>
 		<input type='submit' class="comments" value='Send'/>
-		<input type="hidden" name='_csrf' value={{token}}/>
+		<input type="hidden" name="_csrf" value="{{token}}"/>
 		</div>
 	</form>
 	{{/isLogged}}
