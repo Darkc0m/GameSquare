@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,7 +66,8 @@ public class AppController {
 	
 	@GetMapping("/profile/modify")
 	public String modifyProfile(Principal principal, Model model, HttpServletRequest request) {
-		model.addAttribute("user", UsersRpo.findByUserName(principal.getName()));
+		User user = UsersRpo.findByUserName(principal.getName());
+		model.addAttribute("user", user);
 		return "modify_profile";
 	}
 	
@@ -75,7 +77,7 @@ public class AppController {
 		User user = UsersRpo.findByUserName(previous_username);
 		
 		user.setUserName(username);
-		user.setPassword(password);
+		user.setPassword(new BCryptPasswordEncoder().encode(password));
 		user.setEmail(email);
 		UsersRpo.save(user);
 

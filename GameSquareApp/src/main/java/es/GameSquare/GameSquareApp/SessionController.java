@@ -21,7 +21,7 @@ public class SessionController {
 	@Autowired
 	private UsersRepository UsersRpo;
 	
-	private String defaultRole = "USER";
+	private String defaultRole = "ROLE_USER";
 	
 	@GetMapping("/login")
 	public String login(Model model, HttpServletRequest request) {
