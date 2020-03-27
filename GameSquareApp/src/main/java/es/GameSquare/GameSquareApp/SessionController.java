@@ -27,6 +27,7 @@ public class SessionController {
 	public String login(Model model, HttpServletRequest request) {
 		model.addAttribute("link", "/login");
 		model.addAttribute("action", "Login");
+		model.addAttribute("register", false);
 		return "session";
 	}
 	
@@ -34,17 +35,18 @@ public class SessionController {
 	public String register(Model model, HttpServletRequest request) {
 		model.addAttribute("action", "Register");
 		model.addAttribute("link", "/register");		
+		model.addAttribute("register", true);
 		return "session";
 	}
 	
 	@PostMapping("/register")
-	public String register_sumbit(Model model, HttpServletRequest request, @RequestParam String username, @RequestParam String password) {
+	public String register_sumbit(Model model, HttpServletRequest request, @RequestParam String username, @RequestParam String password, @RequestParam String email) {
 		User existing_user = UsersRpo.findByUserName(username);
 		
 		String message = "User succesfully registered!";
 		
 		if(existing_user == null) {
-			User u = new User(username, new BCryptPasswordEncoder().encode(password));
+			User u = new User(username, new BCryptPasswordEncoder().encode(password), email);
 			u.addRole(defaultRole);
 			UsersRpo.save(u);
 		}

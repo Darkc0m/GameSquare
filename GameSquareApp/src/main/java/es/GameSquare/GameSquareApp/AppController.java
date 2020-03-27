@@ -221,6 +221,8 @@ public class AppController {
 	@GetMapping("/games/{game_id}")
 	public String game(HttpServletRequest request, Model model, @PathVariable String game_id, @RequestParam int pageComments, @RequestParam int pageMods) {
 		
+		session_params(model, request);
+		
 		Videogame videogame = VideogamesRpo.getOne(Long.parseLong(game_id));
 		Page<Comment> comments = CommentsRpo.findByOwnerOrderByPubDateDesc(videogame.getName(), new PageRequest(pageComments,5));
 		Page<Mod> mods = ModsRpo.findByVideogameNameOrderByPubDateDesc(videogame.getName(), new PageRequest(pageMods, 5));

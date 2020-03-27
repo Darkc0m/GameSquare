@@ -36,7 +36,7 @@ public class User {
 	protected String userName;
 	protected String password;
 	protected String regDate;
-	protected String email = "email";
+	protected String email;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	protected List<String> roles;
@@ -56,12 +56,13 @@ public class User {
 	
 	
 	//Constructors
-	public User(String userName, String password, String... roles) {
+	public User(String userName, String password, String email, String... roles) {
 		this.userName = userName;
 		this.password = password;
 		this.regDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 		this.comments = new ArrayList<>();		
 		this.roles = new ArrayList<>(Arrays.asList(roles));
+		this.email = email;
 	}
 	
 	public User() {

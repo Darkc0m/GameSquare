@@ -14,6 +14,10 @@
 	<legend>{{action}}</legend>
 	Username: <br>
 	  <input type="text" name="username" maxlength="15" required="required"><br>
+	  {{#register}}
+	  Email: <br>
+	  <input type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" required="required"><br>
+	  {{/register}}
 	  Password: <br>
 	  <input type="password" name="password" maxlength="20" required="required"><br>
 	  <input type="submit" class="forms" value={{action}}><br>
