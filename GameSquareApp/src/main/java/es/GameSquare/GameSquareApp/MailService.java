@@ -1,5 +1,7 @@
 package es.GameSquare.GameSquareApp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,6 +25,17 @@ public class MailService {
 		mail.setSubject("Mod published");
 		mail.setText(modDev + " has created a mod for yor game " + game);
 
+		javaMailSender.send(mail);
+	}
+	
+	public void notifyAll(String gameDev, List<String> others, String game) throws MailException{
+		String[] othersArray = new String[others.size()];
+		others.toArray(othersArray);
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(othersArray);
+		mail.setSubject("New game published");
+		mail.setText(gameDev + " has published a new game: " + game);
+		
 		javaMailSender.send(mail);
 	}
 }

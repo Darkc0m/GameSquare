@@ -1,5 +1,8 @@
 package es.GameSquare.GameSquareApp;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,9 @@ public class MailRestController {
 	
 	@Autowired
 	private ModsRepository ModsRpo;
+	
+	@Autowired
+	private GameDeveloperRepository DevelopersRpo;
 	
 	@Autowired
 	private ModDeveloperRepository ModdersRpo;
@@ -74,5 +80,44 @@ public class MailRestController {
 		model.addAttribute("link", "/mods/"+mod.getId()+"?page=0");
 		return "template";
 	}
-
+	
+	@PostMapping("/publish/p_game")
+	public String publish_game(HttpServletRequest request, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description) {
+		String username = request.getUserPrincipal().getName();
+		
+		Videogame vg = new Videogame(name, genre, description, username);
+		VideogamesRpo.save(vg);
+		
+		User current = UsersRpo.findByUserName(username);
+		
+		//If developer doesnt exist we create it
+		if(current.getDeveloper() == null) {
+			GameDeveloper dev = new GameDeveloper(current.getId());
+			DevelopersRpo.save(dev);
+			current.setDeveloper(dev);
+			UsersRpo.save(current);
+		}
+		
+		current.getDeveloper().addGame(vg);
+		DevelopersRpo.save(current.getDeveloper());		
+		UsersRpo.save(current);
+		
+		//Email Service
+		List<User> otherUsers = UsersRpo.findByUserNameNot(username);
+		
+		List<String> otherMails = new LinkedList<String>();
+		for(User other:otherUsers){
+			otherMails.add(other.getEmail());
+		}
+		
+		try {
+			notificationService.notifyAll(username, otherMails, name);
+		} catch (MailException mailException) {
+			System.out.println(mailException);
+		}
+		
+		model.addAttribute("message", "Game added successfully.");
+		model.addAttribute("link", "/games/"+vg.getId()+"?pageComments=0&pageMods=0");
+		return "template";
+	}
 }

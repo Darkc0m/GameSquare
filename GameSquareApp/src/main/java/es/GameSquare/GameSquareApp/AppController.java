@@ -153,7 +153,7 @@ public class AppController {
 		model.addAttribute("isGame", isGame);
 		return "publish";
 	}
-	
+	/*
 	@PostMapping("/publish/p_game")
 	public String publish_game(HttpServletRequest request, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description) {
 		String username = request.getUserPrincipal().getName();
@@ -179,7 +179,7 @@ public class AppController {
 		model.addAttribute("link", "/games/"+vg.getId()+"?pageComments=0&pageMods=0");
 		return "template";
 	}
-	
+	*/
 	/*
 	@PostMapping("/publish/p_mod")
 	public String publish_mod(HttpServletRequest request, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description, @RequestParam String game) {
