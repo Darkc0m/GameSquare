@@ -180,6 +180,7 @@ public class AppController {
 		return "template";
 	}
 	
+	/*
 	@PostMapping("/publish/p_mod")
 	public String publish_mod(HttpServletRequest request, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description, @RequestParam String game) {
 		String username = request.getUserPrincipal().getName();
@@ -217,6 +218,7 @@ public class AppController {
 		model.addAttribute("link", "/mods/"+mod.getId()+"?page=0");
 		return "template";
 	}
+	*/
 	
 	@GetMapping("/games/{game_id}")
 	public String game(HttpServletRequest request, Model model, @PathVariable String game_id, @RequestParam int pageComments, @RequestParam int pageMods) {

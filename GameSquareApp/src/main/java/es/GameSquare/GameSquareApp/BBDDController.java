@@ -25,11 +25,12 @@ public class BBDDController {
 	@PostConstruct
 	public void init() {
 		
-		User user1 = new User("Alejuandro", new BCryptPasswordEncoder().encode("1"), "ROLE_USER");
+		User user1 = new User("Alejuandro", new BCryptPasswordEncoder().encode("1"), "alejuandrochan@gmail.com");
+		user1.addRole("ROLE_USER");
 		GameDeveloper user2 = new GameDeveloper(user1.getId());
 		ModDeveloper user3 = new ModDeveloper(user1.getId());
 		
-		Videogame juego_1 = new Videogame("Nekopara", "SliceofLife", "Kawaii", "Juez");
+		Videogame juego_1 = new Videogame("Nekopara", "SliceofLife", "Kawaii", "Alejuandro");
 		
 		Comment c1 = new Comment(user1.getUserName(), "Me gusta mucho", juego_1.getName());
 		
