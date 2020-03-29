@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+
 @RestController
 public class MailRestController {
 	
@@ -76,9 +80,20 @@ public class MailRestController {
 			System.out.println(mailException);
 		}
 		
-		model.addAttribute("message", "Mod added successfully.");
-		model.addAttribute("link", "/mods/"+mod.getId()+"?page=0");
-		return "template";
+		
+		ObjectMapper objectmapper = new ObjectMapper();
+		String head = "<head>\r\n" + 
+				"	<meta charset=\"UTF-8\">\r\n" + 
+				"	<title>Games</title>\r\n" + 
+				"	<link rel=\"stylesheet\" type=\"text/css\" href=\"/styles.css\" />\r\n" + 
+				"</head>";
+		
+		String link = "<a href = mods" +mod.getId()+ "?page=0 class = button> Continue </a>";
+		String html = head + "<body> <div class = \"centered\">\r\n" + 
+				"		<nav class=\"dialog\"><blockquote> Mod added successfully. </blockquote>" + link + "</nav></div></body>";
+		/*model.addAttribute("message", "Mod added successfully.");
+		model.addAttribute("link", "/mods/"+mod.getId()+"?page=0");*/
+		return html;
 	}
 	
 	@PostMapping("/publish/p_game")
@@ -116,8 +131,20 @@ public class MailRestController {
 			System.out.println(mailException);
 		}
 		
-		model.addAttribute("message", "Game added successfully.");
-		model.addAttribute("link", "/games/"+vg.getId()+"?pageComments=0&pageMods=0");
-		return "template";
+		ObjectMapper objectmapper = new ObjectMapper();
+		String head = "<head>\r\n" + 
+				"	<meta charset=\"UTF-8\">\r\n" + 
+				"	<title>Games</title>\r\n" + 
+				"	<link rel=\"stylesheet\" type=\"text/css\" href=\"/styles.css\" />\r\n" + 
+				"</head>";
+		
+		String link = "<a href = /games/"+vg.getId()+"?pageComments=0&pageMods=0 class = button> Continue </a>";
+		String html = head + "<body> <div class = \"centered\">\r\n" + 
+				"		<nav class=\"dialog\"><blockquote> Game added successfully. </blockquote>" + link + "</nav></div></body>";
+		
+		/*model.addAttribute("message", "Game added successfully.");
+		model.addAttribute("link", "/games/"+vg.getId()+"?pageComments=0&pageMods=0");*/
+
+		return html;
 	}
 }
