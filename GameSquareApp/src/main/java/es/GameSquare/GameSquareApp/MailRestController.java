@@ -75,7 +75,7 @@ public class MailRestController {
 		User developer = UsersRpo.findByUserName(dev);
 		
 		try {
-			notificationService.sendEmailMod(developer, username, vg.getName());
+			notificationService.sendEmailMod(developer, username, vg.getName(), name);
 		} catch (MailException mailException) {
 			System.out.println(mailException);
 		}
@@ -88,7 +88,7 @@ public class MailRestController {
 				"	<link rel=\"stylesheet\" type=\"text/css\" href=\"/styles.css\" />\r\n" + 
 				"</head>";
 		
-		String link = "<a href = mods" +mod.getId()+ "?page=0 class = button> Continue </a>";
+		String link = "<a href = /mods/" +mod.getId()+ "?page=0 class = button> Continue </a>";
 		String html = head + "<body> <div class = \"centered\">\r\n" + 
 				"		<nav class=\"dialog\"><blockquote> Mod added successfully. </blockquote>" + link + "</nav></div></body>";
 		/*model.addAttribute("message", "Mod added successfully.");

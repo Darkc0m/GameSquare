@@ -18,12 +18,12 @@ public class MailService {
 		this.javaMailSender = javaMailSender;
 	}
 	
-	public void sendEmailMod(User user, String modDev, String game) throws MailException {
+	public void sendEmailMod(User user, String modDev, String game, String mod_name) throws MailException {
 
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setSubject("Mod published");
-		mail.setText(modDev + " has created a mod for yor game " + game);
+		mail.setText(modDev + " has created a mod for your game " + game + ": " + mod_name);
 
 		javaMailSender.send(mail);
 	}
