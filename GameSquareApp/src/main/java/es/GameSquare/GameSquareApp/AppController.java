@@ -3,6 +3,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Controller
 public class AppController {
@@ -45,8 +48,8 @@ public class AppController {
 	@Autowired
 	private CommentsRepository CommentsRpo;
 	
-	
-	
+	@Autowired
+	private MailService mailService;
 	
 	
 	
@@ -153,9 +156,9 @@ public class AppController {
 		model.addAttribute("isGame", isGame);
 		return "publish";
 	}
-	/*
+	
 	@PostMapping("/publish/p_game")
-	public String publish_game(HttpServletRequest request, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description) {
+	public String publish_game(HttpServletRequest request, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description) throws JsonProcessingException {
 		String username = request.getUserPrincipal().getName();
 		
 		Videogame vg = new Videogame(name, genre, description, username);
@@ -175,12 +178,19 @@ public class AppController {
 		DevelopersRpo.save(current.getDeveloper());		
 		UsersRpo.save(current);
 		
+		//Email Service
+		List<User> otherUsers = UsersRpo.findByUserNameNot(username);
+		List<String> otherMails = new LinkedList<String>();
+		for(User other:otherUsers){
+			otherMails.add(other.getEmail());
+		}
+		mailService.notifyAll(username, otherMails, name);
+		
 		model.addAttribute("message", "Game added successfully.");
 		model.addAttribute("link", "/games/"+vg.getId()+"?pageComments=0&pageMods=0");
 		return "template";
 	}
-	*/
-	/*
+	
 	@PostMapping("/publish/p_mod")
 	public String publish_mod(HttpServletRequest request, Model model, @RequestParam String name, @RequestParam String genre, @RequestParam String description, @RequestParam String game) {
 		String username = request.getUserPrincipal().getName();
@@ -214,11 +224,16 @@ public class AppController {
 		ModdersRpo.save(current.getModder());		
 		UsersRpo.save(current);
 		
+		//Email Service
+		String dev = vg.getDeveloper();
+		User developer = UsersRpo.findByUserName(dev);
+		mailService.sendEmailMod(developer, username, game);
+		
 		model.addAttribute("message", "Mod added successfully.");
 		model.addAttribute("link", "/mods/"+mod.getId()+"?page=0");
 		return "template";
 	}
-	*/
+	
 	
 	@GetMapping("/games/{game_id}")
 	public String game(HttpServletRequest request, Model model, @PathVariable String game_id, @RequestParam int pageComments, @RequestParam int pageMods) {

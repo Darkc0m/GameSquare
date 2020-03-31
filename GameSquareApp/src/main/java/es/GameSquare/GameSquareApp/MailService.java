@@ -2,40 +2,37 @@ package es.GameSquare.GameSquareApp;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class MailService {
 	
-	private JavaMailSender javaMailSender;
+	private RestTemplate restTemplate = new RestTemplate();
+	private ObjectMapper mapper = new ObjectMapper();
 	
-	@Autowired
-	public MailService(JavaMailSender javaMailSender) {
-		this.javaMailSender = javaMailSender;
-	}
-	
-	public void sendEmailMod(User user, String modDev, String game) throws MailException {
-
-		SimpleMailMessage mail = new SimpleMailMessage();
-		mail.setTo(user.getEmail());
-		mail.setSubject("Mod published");
-		mail.setText(modDev + " has created a mod for yor game " + game);
-
-		javaMailSender.send(mail);
-	}
-	
-	public void notifyAll(String gameDev, List<String> others, String game) throws MailException{
-		String[] othersArray = new String[others.size()];
-		others.toArray(othersArray);
-		SimpleMailMessage mail = new SimpleMailMessage();
-		mail.setTo(othersArray);
-		mail.setSubject("New game published");
-		mail.setText(gameDev + " has published a new game: " + game);
+	public void sendEmailMod(User user, String modDev, String game) {
+		EmailInfo emailInfo = new EmailInfo(modDev, game, user.getEmail());
+		try {
+			String jsonString = mapper.writeValueAsString(emailInfo);
+			restTemplate.postForEntity("http://127.0.0.1:8080/sendEmailMod", jsonString, boolean.class);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		javaMailSender.send(mail);
+	}
+	
+	public void notifyAll(String gameDev, List<String> others, String game) throws JsonProcessingException {
+		for(String email: others) {
+			EmailInfo emailInfo = new EmailInfo(gameDev, game, email);
+			String jsonString = mapper.writeValueAsString(emailInfo);
+			restTemplate.postForEntity("http://127.0.0.1:8080/sendEmailGame", jsonString, boolean.class);
+		}
+		
+		
 	}
 }
