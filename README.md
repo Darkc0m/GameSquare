@@ -36,7 +36,7 @@ Pantalla de login. Permite acceder a una cuenta que esté en la base de datos
 
 
 
-![image](screenshots/register.png)
+![image](screenshots/register_.png)
 Pantalla de registro. Permite crear una nueva cuenta en la base de datos
 
 
@@ -61,7 +61,7 @@ Pantalla de datos y comentarios de un mod. Muestra todos los datos relacionados 
 
 
 
-![image](screenshots/game.png)
+![image](screenshots/game_.png)
 Pantalla de datos, mods y comentarios de un juego. Muestra todos los datos relacionados con el mod en cuestión junto con una lista con sus mods y hacer comentarios si el usuario está logeado en la página.
 
 ## Clases y templates
