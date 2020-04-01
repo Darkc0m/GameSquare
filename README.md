@@ -5,7 +5,7 @@ En ella participan tanto los desarrolladores de los videojuegos originales, como
 
 + Funcionalidad pública: Buscar videojuegos y mods para descargar
 + Funcionalidad privada: Publicar un videojuego, subir un mod, comentar sobre un mod/videojuego
-+ Servicio interno: Notificar al desarrollador con un correo cuando se publique un mod de su juego, notificar a los usuarios a través de un tablón de noticias cuando se publique un juego nuevo.
++ Servicio interno: Notificar al desarrollador con un correo cuando se publique un mod de su juego, notificar a los usuarios a través de un correo cuando se publique un juego nuevo.
 
 ## Entidades principales
 
@@ -64,7 +64,9 @@ Pantalla de datos y comentarios de un mod. Muestra todos los datos relacionados 
 ![image](screenshots/game.png)
 Pantalla de datos, mods y comentarios de un juego. Muestra todos los datos relacionados con el mod en cuestión junto con una lista con sus mods y hacer comentarios si el usuario está logeado en la página.
 
-## Diagrama de clases y templates
+## Clases y templates
+
+![image](diagama_clases.jpg)
 
 El controlador SessionControler utiliza las templates "session" y "template".
 El controlador AppControler utiliza las templates "index", "modify_profile", "template", "profile", "publish", "games", "mods", "mods_list", "games_list", "search_list".
