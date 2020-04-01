@@ -64,6 +64,11 @@ Pantalla de datos y comentarios de un mod. Muestra todos los datos relacionados 
 ![image](screenshots/game.png)
 Pantalla de datos, mods y comentarios de un juego. Muestra todos los datos relacionados con el mod en cuestión junto con una lista con sus mods y hacer comentarios si el usuario está logeado en la página.
 
+## Diagrama de clases y templates
+
+El controlador SessionControler utiliza las templates "session" y "template".
+El controlador AppControler utiliza las templates "index", "modify_profile", "template", "profile", "publish", "games", "mods", "mods_list", "games_list", "search_list".
+
 ## Despliegue en máquina virtual
 1. Instalamos vagrant y virtual box en el equipo
 2. Creamos un directorio en el cual vayamos a querer que se almacene la máquina, con el terminal abierto sobre esa ruta ejecutamos «vagrant init ubuntu/trusty32» generándose un fichero vagrantfile en el cual debemos descomentar la línea «config.vm.network "private_network", ip: "192.168.33.10"» para así poder comunicar la mv y nuestra máquina física por medio de la ip 192.168.33.10
