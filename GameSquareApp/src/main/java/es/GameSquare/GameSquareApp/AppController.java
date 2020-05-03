@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public class AppController {
 	}
 	
 	@PostMapping("/profile/modified")
-	public String modifiedProfile(HttpServletRequest request, Model model, @RequestParam String username, @RequestParam String password, @RequestParam String email) {
+	public String modifiedProfile(HttpServletRequest request, HttpSession session, Model model, @RequestParam String username, @RequestParam String password, @RequestParam String email) {
 		String previous_username = request.getUserPrincipal().getName();
 		User user = UsersRpo.findByUserName(previous_username);
 		
@@ -117,8 +118,9 @@ public class AppController {
 			}
 		}
 		
+		session.invalidate();
 		model.addAttribute("message","Profile modified successfully!");
-		model.addAttribute("link", "/profile");
+		model.addAttribute("link", "/");
 		return "template";
 	}
 	
